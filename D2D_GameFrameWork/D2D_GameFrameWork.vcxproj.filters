@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Define">
+      <UniqueIdentifier>{6b80024f-d7fd-4244-b25f-80f327f84f20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client">
+      <UniqueIdentifier>{31dd8099-c63b-4e27-9cfd-2c9957cb79db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\FrameWork">
+      <UniqueIdentifier>{2113b0c5-ff05-4766-82e7-88c088ae2f54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\Timer">
+      <UniqueIdentifier>{ed47e681-7bca-46c3-9184-3e6be2431081}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\Object">
+      <UniqueIdentifier>{1631c15b-a521-4c74-8041-26581a1e05a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\Abstract Class">
+      <UniqueIdentifier>{374cc1b4-cc96-4f04-a174-9718b1d89b41}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleTon.h">
+      <Filter>2D_Client\Abstract Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_D2D.h">
+      <Filter>2D_Client\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDefine.h">
+      <Filter>Define</Filter>
+    </ClInclude>
+    <ClInclude Include="MyEnum.h">
+      <Filter>Define</Filter>
+    </ClInclude>
+    <ClInclude Include="MyStruct.h">
+      <Filter>Define</Filter>
+    </ClInclude>
+    <ClInclude Include="D2D_GameFrameWork.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFrameWork_D2D.h">
+      <Filter>2D_Client\FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>2D_Client\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Define</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Object_D2D.cpp">
+      <Filter>2D_Client\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="D2D_GameFrameWork.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFrameWork_D2D.cpp">
+      <Filter>2D_Client\FrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>2D_Client\Timer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="D2D_GameFrameWork.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="D2D_GameFrameWork.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
