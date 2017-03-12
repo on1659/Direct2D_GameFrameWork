@@ -32,7 +32,6 @@ public:
 
 private:
 	bool CreateRenderTarget();
-	bool CreateD2DFactory();
 	bool CreateIndependentResources();
 	bool CreateHwndRenderTarget();
 

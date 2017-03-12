@@ -31,6 +31,9 @@
     <Filter Include="2D_Client\Abstract Class">
       <UniqueIdentifier>{374cc1b4-cc96-4f04-a174-9718b1d89b41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2D_Client\Util">
+      <UniqueIdentifier>{b9689108-e6c7-433b-9f59-eb5159752e7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -69,6 +72,9 @@
     <ClInclude Include="stdafx.h">
       <Filter>Define</Filter>
     </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>2D_Client\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Object_D2D.cpp">
@@ -85,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>2D_Client\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>2D_Client\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -33,6 +33,7 @@
 //STL Container
 #include <string>
 #include <vector>
+#include <map>
 
 // D2D1
 
@@ -69,6 +70,7 @@ using namespace DirectX::PackedVector;
 #include "SingleTon.h"
 
 #include "Timer.h"
+#include "Util.h"
 
 
 

@@ -38,7 +38,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // 응용 프로그램 초기화를 수행합니다.
     if (!InitInstance (hInstance, nCmdShow))
     {
-        return false;
+        return FALSE;
     }
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_D2D_GAMEFRAMEWORK));
@@ -113,18 +113,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
       return FALSE;
    }
 
-   auto result = FRAMEWORK->Start(new HINSTANCE_HWND{ hInst, hWnd });
-
-   if (!result)
-   {
-	   MessageBox(hWnd, TEXT("로딩 실패"), TEXT("Fail"), MB_OK);
-	   return false;
-   }
+   FRAMEWORK->Initialize(hInst, hWnd);
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
-   return true;
+   return TRUE;
 }
 
 //

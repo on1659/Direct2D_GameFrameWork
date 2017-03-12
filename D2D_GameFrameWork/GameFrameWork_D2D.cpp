@@ -31,15 +31,20 @@ void CGameFrameWork_D2D::Initialize(HINSTANCE hInstance, HWND hWnd)
 	#else
 		GetWindowText(m_hWnd, m_CaptionTitle, TITLE_MAX_LENGTH);
 	#endif
+	
 	#if defined(SHOW_CAPTIONFPS)
 		lstrcat(m_CaptionTitle, TEXT(" ("));
 	#endif
-	m_TitleLength = lstrlen(m_CaptionTitle);
+
+		m_TitleLength = lstrlen(m_CaptionTitle);
 	SetWindowText(m_hWnd, m_CaptionTitle);
 
-	CreateRenderTarget();
-	CreateD2DFactory();
 	CreateIndependentResources();
+	if (!CreateRenderTarget())
+	{
+		MessageBox(m_hWnd, L"Error", L"CreateRenderTarget", MB_OK);
+	}
+
 
 }
 
@@ -49,11 +54,6 @@ bool CGameFrameWork_D2D::Release()
 }
 
 bool CGameFrameWork_D2D::CreateRenderTarget()
-{
-	return CreateHwndRenderTarget();
-}
-
-bool CGameFrameWork_D2D::CreateD2DFactory()
 {
 	return CreateHwndRenderTarget();
 }
@@ -113,11 +113,12 @@ bool CGameFrameWork_D2D::CreateHwndRenderTarget()
 
 	auto result = m_pd2dFactory->CreateHwndRenderTarget
 	(
-		D2D1::RenderTargetProperties()
+		  D2D1::RenderTargetProperties()
 		, D2D1::HwndRenderTargetProperties(m_hWnd, size, D2D1_PRESENT_OPTIONS_IMMEDIATELY)
 		, &m_hWndRenderTarget
 	);
-	return SUCCEEDED(result);
+
+	return m_hWndRenderTarget;
 }
 
 void CGameFrameWork_D2D::Update(const float& fTime)
@@ -126,6 +127,21 @@ void CGameFrameWork_D2D::Update(const float& fTime)
 
 void CGameFrameWork_D2D::Render()
 {
+	m_hWndRenderTarget->BeginDraw();
+
+	m_hWndRenderTarget->Clear(ColorF{ ColorF::Gainsboro });
+
+	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> hbr;
+	m_hWndRenderTarget->CreateSolidColorBrush(ColorF{ ColorF::AliceBlue }, &hbr);
+
+	float angle = XMConvertToRadians(0.17f * 270.f);
+	float x = 50 + cos(angle) * 25.f;
+	float y = 50 + sin(angle) * 25.f;
+	m_hWndRenderTarget->FillRectangle(RectF(x - 10.f, y - 10.f, x + 10.f, y + 10.f), hbr.Get());
+
+
+	HRESULT hResult = m_hWndRenderTarget->EndDraw(); //	End Draw
+
 }
 
 void CGameFrameWork_D2D::FrameAdvance()
