@@ -84,8 +84,8 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_D2D_GAMEFRAMEWORK));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_D2D_GAMEFRAMEWORK);
-    wcex.lpszClassName  = szWindowClass;
+	wcex.lpszMenuName	= nullptr;// MAKEINTRESOURCEW(IDC_D2D_GAMEFRAMEWORK);
+	wcex.lpszClassName = nullptr;// szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     return RegisterClassExW(&wcex);
@@ -105,8 +105,21 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+   HWND hWnd = 
+	   CreateWindowW
+	   (
+		   szWindowClass
+		   , szTitle
+		   , WS_OVERLAPPEDWINDOW
+		   , CW_USEDEFAULT
+		   , 0
+		   , FRAME_WIDTH
+		   , FRAME_HEIGHT
+		   , nullptr
+		   , nullptr
+		   , hInstance
+		   , nullptr
+	   );
 
    if (!hWnd)
    {
@@ -152,14 +165,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
         break;
-    case WM_PAINT:
-        {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다.
-            EndPaint(hWnd, &ps);
-        }
-        break;
+
     case WM_DESTROY:
         PostQuitMessage(0);
         break;

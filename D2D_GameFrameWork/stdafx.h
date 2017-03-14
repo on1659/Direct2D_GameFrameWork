@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <memory.h>
+#include <memory>
 #include <tchar.h>
 
 
@@ -68,6 +69,8 @@ using namespace DirectX::PackedVector;
 
 #include "Object_D2D.h"
 #include "SingleTon.h"
+#include "SceneState.h"
+#include "InputManager.h"
 
 #include "Timer.h"
 #include "Util.h"

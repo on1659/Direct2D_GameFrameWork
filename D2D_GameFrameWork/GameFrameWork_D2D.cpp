@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameFrameWork_D2D.h"
 
+#include "SceneMain.h"
 
 CGameFrameWork_D2D::CGameFrameWork_D2D(const std::string& name)
 	: CSingleTonBase(name)
@@ -45,11 +46,23 @@ void CGameFrameWork_D2D::Initialize(HINSTANCE hInstance, HWND hWnd)
 		MessageBox(m_hWnd, L"Error", L"CreateRenderTarget", MB_OK);
 	}
 
+	// Manager Load
+	INPUT->Load();
+
+
+	//Scene Load
+	CGameFrameWork_D2D::enter(hInstance, hWnd);
 
 }
-
+void CGameFrameWork_D2D::enter(HINSTANCE hInstance, HWND hWnd)
+{
+	m_pScene = std::make_unique<CSceneMain>();
+	m_pScene->enter(m_hInstance, m_hWnd, m_hWndRenderTarget.Get());
+}
+ 
 bool CGameFrameWork_D2D::Release()
 {
+	m_pScene->Release();
 	return false;
 }
 
@@ -111,7 +124,7 @@ bool CGameFrameWork_D2D::CreateHwndRenderTarget()
 		, static_cast<UINT32>(rc.bottom - rc.top)
 	};
 
-	auto result = m_pd2dFactory->CreateHwndRenderTarget
+	m_pd2dFactory->CreateHwndRenderTarget
 	(
 		  D2D1::RenderTargetProperties()
 		, D2D1::HwndRenderTargetProperties(m_hWnd, size, D2D1_PRESENT_OPTIONS_IMMEDIATELY)
@@ -123,6 +136,8 @@ bool CGameFrameWork_D2D::CreateHwndRenderTarget()
 
 void CGameFrameWork_D2D::Update(const float& fTime)
 {
+	INPUT->Update(fTime);
+	m_pScene->Update(fTime);
 }
 
 void CGameFrameWork_D2D::Render()
@@ -131,16 +146,10 @@ void CGameFrameWork_D2D::Render()
 
 	m_hWndRenderTarget->Clear(ColorF{ ColorF::Gainsboro });
 
-	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> hbr;
-	m_hWndRenderTarget->CreateSolidColorBrush(ColorF{ ColorF::AliceBlue }, &hbr);
-
-	float angle = XMConvertToRadians(0.17f * 270.f);
-	float x = 50 + cos(angle) * 25.f;
-	float y = 50 + sin(angle) * 25.f;
-	m_hWndRenderTarget->FillRectangle(RectF(x - 10.f, y - 10.f, x + 10.f, y + 10.f), hbr.Get());
+	m_pScene->Render(m_hWndRenderTarget.Get());
 
 
-	HRESULT hResult = m_hWndRenderTarget->EndDraw(); //	End Draw
+	m_hWndRenderTarget->EndDraw(); //	End Draw
 
 }
 

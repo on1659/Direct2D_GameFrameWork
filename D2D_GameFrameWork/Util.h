@@ -1,5 +1,6 @@
 #pragma once
 
+
 namespace Radar
 {
 	class Vector2
@@ -28,7 +29,7 @@ namespace Radar
 		void set(const T& x, const T& y) { this->x = x; this->y = y; }
 
 		//const를 붙이는건 other은 수정하지 않는거니깐 붙이는거
-		 Vector2& operator+(const Vector2& other) { return Vector2(x + other.x, y + other.y);}
+		Vector2& operator+(const Vector2& other) { auto v2 = Vector2(x + other.x, y + other.y); return v2; }
 		 void operator+=(const Vector2& other) { x += other.x; y += other.y; }
 		 Vector2& operator-(const Vector2& other) { return Vector2(x - other.x, y - other.y);}
 		 void operator-=(const Vector2& other) {	x -= other.x; y -= other.y; }

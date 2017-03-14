@@ -35,6 +35,8 @@ private:
 	bool CreateIndependentResources();
 	bool CreateHwndRenderTarget();
 
+	void enter(HINSTANCE hInstance, HWND hWnd);
+
 private:
 	RECT												m_rcWindowClient;
 	float												m_fps;
@@ -44,7 +46,7 @@ private:
 	TCHAR												m_CaptionTitle[TITLE_MAX_LENGTH];
 	int													m_TitleLength;
 
-
+	std::unique_ptr<CSceneState>						m_pScene;
 private:
 	Microsoft::WRL::ComPtr<ID2D1Factory2>				m_pd2dFactory;
 	Microsoft::WRL::ComPtr<IDWriteFactory2>				m_pdwFactory;
