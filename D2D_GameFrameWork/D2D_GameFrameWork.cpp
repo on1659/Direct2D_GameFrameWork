@@ -36,10 +36,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MyRegisterClass(hInstance);
 
     // 응용 프로그램 초기화를 수행합니다.
-    if (!InitInstance (hInstance, nCmdShow))
-    {
-        return FALSE;
-    }
+    if (!InitInstance (hInstance, nCmdShow)){ return false; }
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_D2D_GAMEFRAMEWORK));
 
@@ -57,74 +54,104 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		{
 			FRAMEWORK->FrameAdvance();
 		}
-
 	}
 
 	return (int)msg.wParam;
 }
 
-
-
-//
-//  함수: MyRegisterClass()
-//
-//  목적: 창 클래스를 등록합니다.
-//
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
     WNDCLASSEXW wcex;
 
-    wcex.cbSize = sizeof(WNDCLASSEX);
+	wcex.cbSize = sizeof(WNDCLASSEX);
 
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc;
-    wcex.cbClsExtra     = 0;
-    wcex.cbWndExtra     = 0;
-    wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_D2D_GAMEFRAMEWORK));
-    wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-	wcex.lpszMenuName	= nullptr;// MAKEINTRESOURCEW(IDC_D2D_GAMEFRAMEWORK);
-	wcex.lpszClassName = nullptr;// szWindowClass;
-    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc = CGameFrameWork_D2D::WndProc;
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = 0;
+	wcex.hInstance = hInstance;
+	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_D2D_GAMEFRAMEWORK));
+	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wcex.lpszMenuName = nullptr;// MAKEINTRESOURCEW(IDI_D2D_GAMEFRAMEWORK);
+	wcex.lpszClassName = szWindowClass;
+	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
-    return RegisterClassExW(&wcex);
+	return RegisterClassExW(&wcex);
 }
 
-//
-//   함수: InitInstance(HINSTANCE, int)
-//
-//   목적: 인스턴스 핸들을 저장하고 주 창을 만듭니다.
-//
-//   설명:
-//
-//        이 함수를 통해 인스턴스 핸들을 전역 변수에 저장하고
-//        주 프로그램 창을 만든 다음 표시합니다.
-//
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+	//	메인 윈도우 핸들
+	HWND hWnd;
 
-   HWND hWnd = 
-	   CreateWindowW
-	   (
-		   szWindowClass
-		   , szTitle
-		   , WS_OVERLAPPEDWINDOW
-		   , CW_USEDEFAULT
-		   , 0
-		   , FRAME_WIDTH
-		   , FRAME_HEIGHT
-		   , nullptr
-		   , nullptr
-		   , hInstance
-		   , nullptr
-	   );
+	//	윈도우 스타일
+	DWORD dwStyle = 0
+		| WS_OVERLAPPED 	// 디폴트 윈도우. 타이틀 바와 크기 조절이 안되는 경계선을 가진다. 아무런 스타일도 주지 않으면 이 스타일이 적용된다.
+		| WS_CAPTION 		// 타이틀 바를 가진 윈도우를 만들며 WS_BORDER 스타일을 포함한다.
+		| WS_SYSMENU		// 시스템 메뉴를 가진 윈도우를 만든다.
+		| WS_MINIMIZEBOX	// 최소화 버튼을 만든다.
+		| WS_BORDER			// 단선으로 된 경계선을 만들며 크기 조정은 할 수 없다.
+		| WS_THICKFRAME		// 크기 조정이 가능한 두꺼운 경계선을 가진다. WS_BORDER와 같이 사용할 수 없다.
+		;					// 추가로 필요한 윈도우 스타일은 http://www.soen.kr/lecture/win32api/reference/Function/CreateWindow.htm 참고.
 
-   if (!hWnd)
-   {
-      return FALSE;
-   }
+							//	인스턴스 핸들을 전역 변수에 저장
+	hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+
+					   //	데스크톱 윈도우 사이즈
+	RECT getWinSize;
+	GetWindowRect(GetDesktopWindow(), &getWinSize);
+
+	//	클라이언트 사이즈
+	RECT rc;
+	rc.left = rc.top = 0;
+	rc.right = FRAME_WIDTH;
+	rc.bottom = FRAME_HEIGHT;
+	//	윈도우 사이즈에 실제로 추가되는(캡션, 외곽선 등) 크기를 보정.
+	AdjustWindowRect(&rc, dwStyle, FALSE);
+
+	//g_iMarginWidth = rc.right - rc.left - FRAME_WIDTH;
+	//g_iMarginHeight = rc.bottom - rc.top - FRAME_HEIGHT;
+
+	//	클라이언트 절대좌표(left, top)
+	//	데스크톱의 중앙에 클라이언트가 위치하도록 설정
+	POINT ptClientWorld;
+	ptClientWorld.x = (getWinSize.right - FRAME_WIDTH) / 2;
+	ptClientWorld.y = (getWinSize.bottom - FRAME_HEIGHT) / 2;
+
+	//	윈도우 생성
+	hWnd = CreateWindow(
+		  szWindowClass			//	윈도우 클래스 명
+		, szTitle				//	캡션 표시 문자열
+		, dwStyle				//	윈도우 스타일
+		, ptClientWorld.x		//	부모 윈도우 기반 윈도우 시작좌표 : x
+		, ptClientWorld.y		//	부모 윈도우 기반 윈도우 시작좌표 : y
+		, rc.right - rc.left	//	윈도우 사이즈 : width
+		, rc.bottom - rc.top	//	윈도우 사이즈 : height
+		, NULL					//	부모 윈도우.
+		, NULL					//	메뉴 핸들
+		, hInstance				//	인스턴스 핸들
+		, NULL					//	추가 파라메터 : NULL
+	);
+
+	//	생성 실패시 프로그램 종료
+	//	확인 : WndProc의 default msg handler가 DefWindowProc 함수를 반환하는가?
+	if (!hWnd)
+	{
+		LPVOID lpMsgBuf;
+		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM
+			, NULL
+			, GetLastError()
+			, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT)
+			, reinterpret_cast<LPTSTR>(&lpMsgBuf)
+			, 0
+			, NULL
+		);
+		MessageBox(NULL, reinterpret_cast<LPCTSTR>(lpMsgBuf), L"Create Window Fail", MB_ICONERROR);
+		LocalFree(lpMsgBuf);
+		return FALSE;
+	}
+
 
    FRAMEWORK->Initialize(hInst, hWnd);
 
@@ -132,65 +159,4 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    UpdateWindow(hWnd);
 
    return TRUE;
-}
-
-//
-//  함수: WndProc(HWND, UINT, WPARAM, LPARAM)
-//
-//  목적:  주 창의 메시지를 처리합니다.
-//
-//  WM_COMMAND  - 응용 프로그램 메뉴를 처리합니다.
-//  WM_PAINT    - 주 창을 그립니다.
-//  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
-//
-//
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    switch (message)
-    {
-    case WM_COMMAND:
-        {
-            int wmId = LOWORD(wParam);
-            // 메뉴 선택을 구문 분석합니다.
-            switch (wmId)
-            {
-            case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-                break;
-            case IDM_EXIT:
-                DestroyWindow(hWnd);
-                break;
-            default:
-                return DefWindowProc(hWnd, message, wParam, lParam);
-            }
-        }
-        break;
-
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-    }
-    return 0;
-}
-
-// 정보 대화 상자의 메시지 처리기입니다.
-INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    UNREFERENCED_PARAMETER(lParam);
-    switch (message)
-    {
-    case WM_INITDIALOG:
-        return (INT_PTR)TRUE;
-
-    case WM_COMMAND:
-        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-        {
-            EndDialog(hDlg, LOWORD(wParam));
-            return (INT_PTR)TRUE;
-        }
-        break;
-    }
-    return (INT_PTR)FALSE;
 }

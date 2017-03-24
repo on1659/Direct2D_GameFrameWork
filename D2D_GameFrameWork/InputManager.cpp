@@ -467,12 +467,6 @@ void CInputManager::ShowInputData()
 플레이어 InputDataSending함수 추가
 */
 
-std::deque<KeyStateCheck> CInputManager::GetInputQueue()
-{
-	auto dequeue = m_bInputQueue;
-	return dequeue;
-}
-
 XINPUT_GAMEPAD CInputManager::GetGamepad()
 {
 	ZeroMemory(&m_xGamepadState, sizeof(XINPUT_STATE));

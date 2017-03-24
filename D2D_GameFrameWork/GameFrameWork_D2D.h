@@ -15,9 +15,13 @@ public:
 
 		bool Release() override;
 
+		static LRESULT CALLBACK WndProc(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam);
+
 	//---------------------------------
 
 		void Update(const float& fTime = 0.17f);
+
+		void LateUpdate(const float& fTime = 0.17f);
 
 		void Render();
 

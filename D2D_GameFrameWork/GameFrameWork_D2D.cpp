@@ -15,7 +15,6 @@ CGameFrameWork_D2D::CGameFrameWork_D2D(const std::string& name)
 
 }
 	
-
 CGameFrameWork_D2D::~CGameFrameWork_D2D()
 {
 }
@@ -54,6 +53,7 @@ void CGameFrameWork_D2D::Initialize(HINSTANCE hInstance, HWND hWnd)
 	CGameFrameWork_D2D::enter(hInstance, hWnd);
 
 }
+
 void CGameFrameWork_D2D::enter(HINSTANCE hInstance, HWND hWnd)
 {
 	m_pScene = std::make_unique<CSceneMain>();
@@ -134,11 +134,31 @@ bool CGameFrameWork_D2D::CreateHwndRenderTarget()
 	return m_hWndRenderTarget;
 }
 
+LRESULT CGameFrameWork_D2D::WndProc(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
+{
+	switch (nMessageID)
+	{
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	default:
+		return DefWindowProc(hWnd, nMessageID, wParam, lParam);
+	}
+	return 0;
+}
+
 void CGameFrameWork_D2D::Update(const float& fTime)
 {
 	INPUT->Update(fTime);
 	m_pScene->Update(fTime);
 }
+
+void CGameFrameWork_D2D::LateUpdate(const float& fTime)
+{
+	INPUT->Update(fTime);
+	m_pScene->Update(fTime);
+}
+
 
 void CGameFrameWork_D2D::Render()
 {

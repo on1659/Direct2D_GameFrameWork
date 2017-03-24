@@ -97,15 +97,15 @@ private:
 
 	//KYT '16.05.03
 	/*
-	Character Player을 컴포넌트로 옮기기 위함
+		Character Player을 컴포넌트로 옮기기 위함
 	*/
 	POINT							m_ptOldCursorPos;
 
 	//JJY '16.05.07
 	/*
-	m_OldcxDelta, m_OldcyDelta 함수 추가
+		m_OldcxDelta, m_OldcyDelta 함수 추가
 	*/
-	float m_OldcxDelta, m_OldcyDelta;
+	float m_OldcxDelta,					m_OldcyDelta;
 
 
 	//RSH '16.05.13
@@ -185,9 +185,9 @@ public:
 
 	//void DeleteQueue(){ m_bInputQueue.clear(); }
 
-	int GetSize() { return m_bInputQueue.size(); }
+	size_t GetSize() const { return m_bInputQueue.size(); }
 
-	std::deque<KeyStateCheck> GetInputQueue();
+	const std::deque<KeyStateCheck>& GetInputQueue()  const { return m_bInputQueue; }
 
 
 	//KYT '16.04.17

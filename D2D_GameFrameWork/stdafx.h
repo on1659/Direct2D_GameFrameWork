@@ -74,6 +74,7 @@ using namespace DirectX::PackedVector;
 
 #include "Timer.h"
 #include "Util.h"
+#include "Draw.h"
 
 
 

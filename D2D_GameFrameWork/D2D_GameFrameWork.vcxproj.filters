@@ -16,32 +16,38 @@
     <Filter Include="2D_Client">
       <UniqueIdentifier>{31dd8099-c63b-4e27-9cfd-2c9957cb79db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2D_Client\1.Abstract Class">
-      <UniqueIdentifier>{374cc1b4-cc96-4f04-a174-9718b1d89b41}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2D_Client\2.FrameWork">
-      <UniqueIdentifier>{2113b0c5-ff05-4766-82e7-88c088ae2f54}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2D_Client\3.Scene">
-      <UniqueIdentifier>{02135dd4-ec2e-4d49-9f6a-d4ef0d1a2814}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2D_Client\4.Object">
-      <UniqueIdentifier>{1631c15b-a521-4c74-8041-26581a1e05a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2D_Client\5.Timer">
-      <UniqueIdentifier>{ed47e681-7bca-46c3-9184-3e6be2431081}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2D_Client\98.Util">
       <UniqueIdentifier>{b9689108-e6c7-433b-9f59-eb5159752e7b}</UniqueIdentifier>
     </Filter>
     <Filter Include="0.Define">
       <UniqueIdentifier>{6b80024f-d7fd-4244-b25f-80f327f84f20}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2D_Client\3.Scene\Scene">
+    <Filter Include="2D_Client\07.Draw">
+      <UniqueIdentifier>{f515e271-d950-4c41-8ef2-fb8a43971d06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\06.InputManager">
+      <UniqueIdentifier>{5a772cb9-252d-43b6-a16c-15b0e5175e52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\05.Timer">
+      <UniqueIdentifier>{ed47e681-7bca-46c3-9184-3e6be2431081}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\04.Object">
+      <UniqueIdentifier>{1631c15b-a521-4c74-8041-26581a1e05a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\04.Object\GameObject">
+      <UniqueIdentifier>{9089290f-c2ca-47f5-a67e-8b4287db6d0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\03.Scene">
+      <UniqueIdentifier>{02135dd4-ec2e-4d49-9f6a-d4ef0d1a2814}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\03.Scene\Scene">
       <UniqueIdentifier>{0d3d3978-b53b-4052-b0bd-9087433b0325}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2D_Client\6.InputManager">
-      <UniqueIdentifier>{5a772cb9-252d-43b6-a16c-15b0e5175e52}</UniqueIdentifier>
+    <Filter Include="2D_Client\02.FrameWork">
+      <UniqueIdentifier>{2113b0c5-ff05-4766-82e7-88c088ae2f54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\01.Abstract Class">
+      <UniqueIdentifier>{374cc1b4-cc96-4f04-a174-9718b1d89b41}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,10 +61,10 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="SingleTon.h">
-      <Filter>2D_Client\1.Abstract Class</Filter>
+      <Filter>2D_Client\01.Abstract Class</Filter>
     </ClInclude>
     <ClInclude Include="Object_D2D.h">
-      <Filter>2D_Client\4.Object</Filter>
+      <Filter>2D_Client\04.Object</Filter>
     </ClInclude>
     <ClInclude Include="MyDefine.h">
       <Filter>0.Define</Filter>
@@ -73,10 +79,10 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GameFrameWork_D2D.h">
-      <Filter>2D_Client\2.FrameWork</Filter>
+      <Filter>2D_Client\02.FrameWork</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>2D_Client\5.Timer</Filter>
+      <Filter>2D_Client\05.Timer</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>0.Define</Filter>
@@ -85,18 +91,24 @@
       <Filter>2D_Client\98.Util</Filter>
     </ClInclude>
     <ClInclude Include="SceneState.h">
-      <Filter>2D_Client\1.Abstract Class</Filter>
+      <Filter>2D_Client\01.Abstract Class</Filter>
     </ClInclude>
     <ClInclude Include="SceneMain.h">
-      <Filter>2D_Client\3.Scene\Scene</Filter>
+      <Filter>2D_Client\03.Scene\Scene</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>2D_Client\6.InputManager</Filter>
+      <Filter>2D_Client\06.InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>2D_Client\04.Object\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Draw.h">
+      <Filter>2D_Client\07.Draw</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Object_D2D.cpp">
-      <Filter>2D_Client\4.Object</Filter>
+      <Filter>2D_Client\04.Object</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
@@ -105,19 +117,25 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="GameFrameWork_D2D.cpp">
-      <Filter>2D_Client\2.FrameWork</Filter>
+      <Filter>2D_Client\02.FrameWork</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>2D_Client\5.Timer</Filter>
+      <Filter>2D_Client\05.Timer</Filter>
     </ClCompile>
     <ClCompile Include="Util.cpp">
       <Filter>2D_Client\98.Util</Filter>
     </ClCompile>
     <ClCompile Include="SceneMain.cpp">
-      <Filter>2D_Client\3.Scene\Scene</Filter>
+      <Filter>2D_Client\03.Scene\Scene</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>2D_Client\6.InputManager</Filter>
+      <Filter>2D_Client\06.InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>2D_Client\04.Object\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Draw.cpp">
+      <Filter>2D_Client\07.Draw</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

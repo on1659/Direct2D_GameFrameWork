@@ -18,6 +18,8 @@ public:
 
 	virtual void Update(const float& fTime) = 0;
 
+	virtual void LateUpdate(const float& fTime) = 0;
+
 	virtual void FixedUpdate(const float& fTime) = 0;
 
 protected:

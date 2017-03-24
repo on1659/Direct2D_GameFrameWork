@@ -15,6 +15,8 @@ public:
 
 	virtual void Update(const float& fTime);
 
+	virtual void LateUpdate(const float& fTime);
+
 	virtual void FixedUpdate(const float& fTime);
 
 private:

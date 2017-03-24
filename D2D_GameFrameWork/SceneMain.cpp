@@ -46,9 +46,9 @@ void CSceneMain::Render(ID2D1HwndRenderTarget *pd2dRenderTarget)
 	{
 		for (int x = 0; x < 8; ++x)
 		{
-			if( (x+y) & 1)
+			if ((x + y) & 1)
 				pd2dRenderTarget->FillRectangle(RectF(x * w, y * h, (x+1) * w, (y+1) * h), whilte_brush.Get());
-													 
+				//Draw::drawRect(pd2dRenderTarget, x *w, y * h, w, h, whilte_brush.Get());
 			else									  
 				pd2dRenderTarget->FillRectangle(RectF(x * w, y * h, (x + 1) * w, (y + 1) * h), black_brush.Get());
 	
@@ -65,21 +65,22 @@ void CSceneMain::Render(ID2D1HwndRenderTarget *pd2dRenderTarget)
 }
 void CSceneMain::Update(const float& fTime)
 {
-	//radian = XMConvertToRadians(angle++);
-	//v2.x = 50 + cos(radian) * 25.f;
-	//v2.y = 50 + sin(radian) * 25.f;
 
-	if (INPUT->KeyUp(YT_KEY::YK_W))	playerPos.y -= player_size;
-	if (INPUT->KeyUp(YT_KEY::YK_A))	playerPos.x -= player_size;
-	if (INPUT->KeyUp(YT_KEY::YK_S))	playerPos.y += player_size;
-	if (INPUT->KeyUp(YT_KEY::YK_D))	playerPos.x += player_size;
+	if (INPUT->OnlyKeyDown(YT_KEY::YK_W))	playerPos.y -= player_size;
+	if (INPUT->OnlyKeyDown(YT_KEY::YK_A))	playerPos.x -= player_size;
+	if (INPUT->OnlyKeyDown(YT_KEY::YK_S))	playerPos.y += player_size;
+	if (INPUT->OnlyKeyDown(YT_KEY::YK_D))	playerPos.x += player_size;
 
 	if (Input->KeyUp(YT_KEY::YK_F1))	player_size += 5;
 	if (Input->KeyUp(YT_KEY::YK_F2))	player_size -= 5;
 
 }
+
+void CSceneMain::LateUpdate(const float& fTime)
+{
+}
+
+
 void CSceneMain::FixedUpdate(const float& fTime)
 {
-
-
 }
