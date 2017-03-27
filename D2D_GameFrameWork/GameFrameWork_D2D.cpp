@@ -151,12 +151,12 @@ void CGameFrameWork_D2D::Update(const float& fTime)
 {
 	INPUT->Update(fTime);
 	m_pScene->Update(fTime);
+
+	if(Input->OnlyKeyDown(YK_0)) PostQuitMessage(0);
 }
 
 void CGameFrameWork_D2D::LateUpdate(const float& fTime)
 {
-	INPUT->Update(fTime);
-	m_pScene->Update(fTime);
 }
 
 
@@ -167,7 +167,6 @@ void CGameFrameWork_D2D::Render()
 	m_hWndRenderTarget->Clear(ColorF{ ColorF::Gainsboro });
 
 	m_pScene->Render(m_hWndRenderTarget.Get());
-
 
 	m_hWndRenderTarget->EndDraw(); //	End Draw
 
@@ -207,7 +206,5 @@ void CGameFrameWork_D2D::FrameAdvance()
 		wcscat_s(m_CaptionTitle + m_TitleLength, TITLE_MAX_LENGTH - m_TitleLength, TEXT(" FPS)"));
 		SetWindowText(m_hWnd, m_CaptionTitle);
 	#endif
-
-
-
+	
 }

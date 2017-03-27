@@ -55,7 +55,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			FRAMEWORK->FrameAdvance();
 		}
 	}
-
+	FRAMEWORK->Release();
+	FRAMEWORK->ReleseInstance();
 	return (int)msg.wParam;
 }
 
