@@ -1,6 +1,7 @@
 #pragma once
 
 // No Use
+
 class Draw
 {	
 public:

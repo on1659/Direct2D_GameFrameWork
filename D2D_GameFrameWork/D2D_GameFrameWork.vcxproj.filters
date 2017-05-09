@@ -49,6 +49,18 @@
     <Filter Include="2D_Client\01.Abstract Class">
       <UniqueIdentifier>{374cc1b4-cc96-4f04-a174-9718b1d89b41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2D_Client\08.RenderManager">
+      <UniqueIdentifier>{aba28f38-e1cd-461e-ad2a-9fbe6c2b9d2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\08.RenderManager\Graphic">
+      <UniqueIdentifier>{25ba57ff-9f0e-4ec9-a6eb-034940b76930}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\08.RenderManager\Sprite">
+      <UniqueIdentifier>{5631c227-d43c-4361-9376-73ef898177e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\09. MyColor">
+      <UniqueIdentifier>{3da2bf9b-10e0-45d1-813a-e09bd9993789}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -105,13 +117,25 @@
     <ClInclude Include="Draw.h">
       <Filter>2D_Client\07.Draw</Filter>
     </ClInclude>
+    <ClInclude Include="LoadD2DBitmap.h">
+      <Filter>2D_Client\08.RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicObject_2D.h">
+      <Filter>2D_Client\08.RenderManager\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteObject_2D.h">
+      <Filter>2D_Client\08.RenderManager\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager_2D.h">
+      <Filter>2D_Client\08.RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="MyColor.h">
+      <Filter>2D_Client\09. MyColor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Object_D2D.cpp">
       <Filter>2D_Client\04.Object</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="D2D_GameFrameWork.cpp">
       <Filter>소스 파일</Filter>
@@ -121,9 +145,6 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>2D_Client\05.Timer</Filter>
-    </ClCompile>
-    <ClCompile Include="Util.cpp">
-      <Filter>2D_Client\98.Util</Filter>
     </ClCompile>
     <ClCompile Include="SceneMain.cpp">
       <Filter>2D_Client\03.Scene\Scene</Filter>
@@ -136,6 +157,18 @@
     </ClCompile>
     <ClCompile Include="Draw.cpp">
       <Filter>2D_Client\07.Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicObject_2D.cpp">
+      <Filter>2D_Client\08.RenderManager\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteObject_2D.cpp">
+      <Filter>2D_Client\08.RenderManager\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager_2D.cpp">
+      <Filter>2D_Client\08.RenderManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

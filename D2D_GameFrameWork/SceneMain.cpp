@@ -1,21 +1,22 @@
 #include "stdafx.h"
 #include "SceneMain.h"
-
+#include "LoadD2DBitmap.h"
+#include "GameFrameWork_D2D.h"
 
 CSceneMain::CSceneMain(const std::string& name) : CSceneState(name)
 {
-
 }
 
 
 CSceneMain::~CSceneMain()
 {
-
 }
 
 
-void CSceneMain::enter(HINSTANCE hInstance, HWND hWnd, ID2D1HwndRenderTarget *pd2dRenderTarget)
+void CSceneMain::enter(HINSTANCE hInstance, HWND hWnd, Microsoft::WRL::ComPtr<ID2D1Factory2> pd2dFactory2, ID2D1HwndRenderTarget *pd2dRenderTarget)
 {
+	CSceneState::enter(hInstance, hWnd, pd2dFactory2, pd2dRenderTarget);
+
 	m_hInstance = hInstance;
 	m_hWnd = hWnd;
 
@@ -24,9 +25,9 @@ void CSceneMain::enter(HINSTANCE hInstance, HWND hWnd, ID2D1HwndRenderTarget *pd
 
 	player_size = 88;
 
-	pd2dRenderTarget->CreateSolidColorBrush(ColorF{ ColorF::White }, &whilte_brush);
-	pd2dRenderTarget->CreateSolidColorBrush(ColorF{ ColorF::Black }, &black_brush);
-	pd2dRenderTarget->CreateSolidColorBrush(ColorF{ ColorF::Red }, &red_brush);
+
+
+	sprite.Create(TEXT("À©µå¹Ð"), 400, 400, 200, 200, 5, 7);
 
 }
 void CSceneMain::exit()
@@ -38,19 +39,22 @@ void CSceneMain::Render(ID2D1HwndRenderTarget *pd2dRenderTarget)
 	//pd2dRenderTarget->CreateSolidColorBrush(ColorF{ ColorF::AliceBlue }, &hbr);
 	//pd2dRenderTarget->FillRectangle(RectF(v2.x - 10.f, v2.y - 10.f, v2.x + 10.f, v2.y + 10.f), hbr.Get());
 
-
 	int w = player_size;
 	int h = player_size;
+	float x, y;
 	
-	for (int y = 0; y < 8;  ++y)
+	for (int iy = 0; iy < 8; ++iy)
 	{
-		for (int x = 0; x < 8; ++x)
+		for (int ix = 0; ix < 8; ++ix)
 		{
-			if ((x + y) & 1)
-				pd2dRenderTarget->FillRectangle(RectF(x * w, y * h, (x+1) * w, (y+1) * h), whilte_brush.Get());
+			x = static_cast<float>(ix);
+			y = static_cast<float>(iy);
+
+			if ((ix + iy) & 1)
+				pd2dRenderTarget->FillRectangle(RectF(x * w, y * h, (x+1) * w, (y+1) * h), MY_COLOR(MyColorEnum::White));
 				//Draw::drawRect(pd2dRenderTarget, x *w, y * h, w, h, whilte_brush.Get());
 			else									  
-				pd2dRenderTarget->FillRectangle(RectF(x * w, y * h, (x + 1) * w, (y + 1) * h), black_brush.Get());
+				pd2dRenderTarget->FillRectangle(RectF(x * w, y * h, (x + 1) * w, (y + 1) * h), MY_COLOR(MyColorEnum::Black));
 	
 		}
 	}
@@ -60,7 +64,18 @@ void CSceneMain::Render(ID2D1HwndRenderTarget *pd2dRenderTarget)
 	ellispe.point.y = playerPos.y;
 	ellispe.radiusX = 10.0f;
 	ellispe.radiusY = 10.0f;
-	pd2dRenderTarget->FillEllipse(ellispe, red_brush.Get());
+	pd2dRenderTarget->FillEllipse(ellispe, MY_COLOR(Red));
+
+	sprite.Render(pd2dRenderTarget);
+
+	D2D_RECT_F  pos{ 100.0f,100.0f,200.0f,200.0f };
+	pd2dRenderTarget->DrawBitmap(RENDERMGR_2D->GetImage(TEXT("Player_Attack_Left")), &pos, 1.0f);
+
+	pos.top += 100;
+	pos.bottom += 100;
+
+	pd2dRenderTarget->DrawBitmap(RENDERMGR_2D->GetImage(TEXT("Player_Attack_Right")), &pos , 1.0f) ;
+	
 
 }
 void CSceneMain::Update(const float& fTime)

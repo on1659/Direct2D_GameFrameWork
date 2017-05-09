@@ -135,6 +135,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		, NULL					//	추가 파라메터 : NULL
 	);
 
+	gHwnd = hWnd;
+
 	//	생성 실패시 프로그램 종료
 	//	확인 : WndProc의 default msg handler가 DefWindowProc 함수를 반환하는가?
 	if (!hWnd)

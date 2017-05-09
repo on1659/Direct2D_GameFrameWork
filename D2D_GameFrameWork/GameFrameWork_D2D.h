@@ -32,7 +32,7 @@ public:
 		auto GetD2DFactory()		 const { return m_pd2dFactory.Get(); }
 		auto GetDWriteFactory()		 const { return m_pdwFactory.Get(); }
 		auto GetDWICImagingFactory() const { return m_wicFactory.Get(); }
-
+	
 
 private:
 	bool CreateRenderTarget();
@@ -51,6 +51,10 @@ private:
 	int													m_TitleLength;
 
 	std::unique_ptr<CSceneState>						m_pScene;
+	
+
+	
+	
 private:
 	Microsoft::WRL::ComPtr<ID2D1Factory2>				m_pd2dFactory;
 	Microsoft::WRL::ComPtr<IDWriteFactory2>				m_pdwFactory;

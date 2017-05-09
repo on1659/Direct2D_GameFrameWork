@@ -7,7 +7,7 @@ public:
 
 	~CSceneMain();
 
-	virtual void enter(HINSTANCE hInstance, HWND hWnd, ID2D1HwndRenderTarget *pd2dRenderTarget = nullptr);
+	virtual void enter(HINSTANCE hInstance, HWND hWnd, Microsoft::WRL::ComPtr<ID2D1Factory2> pd2dFactory2, ID2D1HwndRenderTarget *pd2dRenderTarget = nullptr);
 
 	virtual void exit();
 
@@ -21,11 +21,10 @@ public:
 
 private:
 
-	Radar::Vector2 playerPos;
+	Vector2			playerPos;
 	int				player_size;
-	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> whilte_brush;
-	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> black_brush;
-	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> red_brush;
+
+	CSpriteObject_2D	sprite;
 
 };
 

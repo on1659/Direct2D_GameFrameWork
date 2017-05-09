@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "GameFrameWork_D2D.h"
+#include "Util.h"
 
 #include "SceneMain.h"
 
@@ -40,29 +41,43 @@ void CGameFrameWork_D2D::Initialize(HINSTANCE hInstance, HWND hWnd)
 	SetWindowText(m_hWnd, m_CaptionTitle);
 
 	CreateIndependentResources();
+
 	if (!CreateRenderTarget())
 	{
 		MessageBox(m_hWnd, L"Error", L"CreateRenderTarget", MB_OK);
+		return;
 	}
 
 	// Manager Load
 	INPUT->Load();
 
+	//Rener Manger
+	RENDERMGR_2D->Load(m_wicFactory, m_hWndRenderTarget);
+
+	//My Brush
+	MyColor::GetInstance()->Load(m_hWndRenderTarget.Get());
 
 	//Scene Load
 	CGameFrameWork_D2D::enter(hInstance, hWnd);
+
+
 
 }
 
 void CGameFrameWork_D2D::enter(HINSTANCE hInstance, HWND hWnd)
 {
 	m_pScene = std::make_unique<CSceneMain>();
-	m_pScene->enter(m_hInstance, m_hWnd, m_hWndRenderTarget.Get());
+	m_pScene->enter(m_hInstance, m_hWnd, m_pd2dFactory, m_hWndRenderTarget.Get());
+
+
 }
  
 bool CGameFrameWork_D2D::Release()
 {
 	m_pScene->Release();
+	RENDERMGR_2D->Release();
+	MyColor::GetInstance()->Release();
+	MyColor::GetInstance()->ReleseInstance();
 	return false;
 }
 
@@ -112,6 +127,7 @@ bool CGameFrameWork_D2D::CreateIndependentResources()
 	return true;
 	
 }
+
 
 bool CGameFrameWork_D2D::CreateHwndRenderTarget()
 {

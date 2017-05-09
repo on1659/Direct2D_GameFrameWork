@@ -18,8 +18,8 @@ CGameTimer::CGameTimer(const std::string& name)
     else 
     { 
 		m_bHardwareHasPerformanceCounter = FALSE;
-		m_nLastTime	= std::chrono::system_clock::now();
-		m_fTimeScale = 0.001f;	
+		QueryPerformanceCounter((LARGE_INTEGER *)&m_nLastTime);
+		m_fTimeScale = 0.001f;
     }	
 
     m_nSampleCount = 0;
@@ -57,7 +57,8 @@ float& CGameTimer::Tick(const float& fLockFPS)
 	        } 
             else 
             {
-				m_nCurrentTime = std::chrono::system_clock::now();
+				QueryPerformanceCounter((LARGE_INTEGER *)&m_nCurrentTime);
+				//m_nCurrentTime = std::chrono::system_clock::now();
 	        } 
 	        // Calculate elapsed time in seconds
 	        fTimeElapsed = (m_nCurrentTime - m_nLastTime).count() * m_fTimeScale;

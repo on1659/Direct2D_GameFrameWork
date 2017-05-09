@@ -71,13 +71,24 @@ using namespace DirectX::PackedVector;
 #include "SingleTon.h"
 #include "SceneState.h"
 #include "InputManager.h"
+#include "MyColor.h"
 
 #include "Timer.h"
 #include "Util.h"
 #include "Draw.h"
+#include "GraphicObject_2D.h"
+#include "SpriteObject_2D.h"
 
+#include "RenderManager_2D.h"
 
+static HWND gHwnd;
 
-
+#ifdef _DEBUG
+	#ifdef UNICODE
+		#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+	#else 
+		#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+	#endif
+#endif
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
