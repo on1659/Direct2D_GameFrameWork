@@ -147,6 +147,12 @@ enum MyColorEnum
 	, MyColorEnd
 };
 
+enum FONT_FORMAT
+{
+	  FONT_¿¾³¯¸ñ¿åÅÁ25
+	, FONT_³ª´®¹Ù¸¥°íµñ
+};
+
 class MyColor : public CSingleTonBase<MyColor>
 {
 	std::map<std::string, ID2D1SolidColorBrush*> myBrushMap;
@@ -157,15 +163,9 @@ public:
 
 	MyColor() : CSingleTonBase("MyColor") {}
 
-	ID2D1SolidColorBrush* GetColor(MyColorEnum color)
-	{
-		return vBrush[static_cast<int>(color)];
-	}
+	ID2D1SolidColorBrush* GetColor(const MyColorEnum& color) {	return vBrush[static_cast<int>(color)]; }
 
-	ID2D1SolidColorBrush* GetColor(const std::string& color)
-	{
-		return nullptr;
-	}
+	ID2D1SolidColorBrush* GetColor(const std::string& color) {	return nullptr; }
 
 	bool Release()
 	{
@@ -188,15 +188,12 @@ public:
 		return true;
 	}
 
-	void Load(ID2D1HwndRenderTarget *pd2dRenderTarget)
-	{
-		CreaetGobalBurshVector(pd2dRenderTarget);
-	}
+	void Load(ID2D1HwndRenderTarget *pd2dRenderTarget) { CreaetGobalBurshVector(pd2dRenderTarget); }
 
 private:
 	void CreaetGobalBurshVector(ID2D1HwndRenderTarget *pd2dRenderTarget)
 	{							
-		vBrush.reserve(MyColorEnum::MyColorEnd);
+		vBrush.reserve(static_cast<int>(MyColorEnum::MyColorEnd));
 		AddBrush(pd2dRenderTarget, D2D1::ColorF(D2D1::ColorF::AliceBlue				, 1.0f));
 		AddBrush(pd2dRenderTarget, D2D1::ColorF(D2D1::ColorF::AntiqueWhite			, 1.0f));
 		AddBrush(pd2dRenderTarget, D2D1::ColorF(D2D1::ColorF::Aqua					, 1.0f));
@@ -506,6 +503,54 @@ private:
 
 };
 
+class MyFont : public CSingleTonBase<MyFont>
+{
+	std::vector<IDWriteTextFormat*> m_vTextFormat;
+	IDWriteFactory*					m_pdwFactory;
+
+public:
+
+	void Load(IDWriteFactory *pdwFactory)
+	{
+		m_pdwFactory = pdwFactory;
+		CreatFont(m_pdwFactory, TEXT("³ª´®¹Ù¸¥°íµñ"), 25, DWRITE_FONT_WEIGHT_BOLD);
+
+	}
+
+
+	void CreatFont
+	(
+		IDWriteFactory* pdwFactory
+		, const WCHAR* fontFaimly
+		, FLOAT fontSize = 25
+		, DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT_REGULAR
+		, DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE_NORMAL
+		, DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH_NORMAL
+		, const WCHAR* localeName = TEXT("ko-kr")
+	)
+	{
+		IDWriteTextFormat* format;
+		pdwFactory->CreateTextFormat(fontFaimly, NULL, fontWeight, fontStyle, fontStretch, fontSize, localeName, &format);
+		m_vTextFormat.push_back(format);
+		//gvTextFormat.push_back(textFormat);
+	}
+
+	bool Release() override
+	{
+		for(auto& format : m_vTextFormat)
+		{
+			format->Release();
+			format = nullptr;
+		}
+		m_vTextFormat.clear();
+
+		return true;
+	}
+
+	IDWriteTextFormat* GetFont(const FONT_FORMAT& font) { return m_vTextFormat[static_cast<int>(font)]; }
+
+
+};
 
 /*
 AliceBlue

@@ -134,7 +134,7 @@ public:
 		rect.bottom	  = cy + (h * 0.5f);
 	}
 
-	bool Collision(const BoundingBox_2D& other)
+	bool collision(const BoundingBox_2D& other)
 	{
 		if (rect.left > other.rect.right)return false;
 		if (rect.right < other.rect.left)return false;
@@ -143,7 +143,7 @@ public:
 		return true;
 	}
 
-	bool Contains(const float& x, const float& y)
+	bool contains(const float& x, const float& y)
 	{
 		return rect.left < rect.right 
 			&& rect.top < rect.bottom
@@ -151,7 +151,40 @@ public:
 			&& rect.top <= y  && y < rect.bottom;
 	}
 
-	void Update(const float& cx, const float& cy)
+	void offset(const float& cx, const float& cy)
+	{
+		m_cx = m_cx + cx;
+		m_cy = m_cy + cy;
+
+		rect.left    += cx;
+		rect.right   += cx;
+		rect.top     += cy;
+		rect.bottom  += cy;
+
+	}
+
+	void Set(const float& cx, const float& cy) { update(cx, cy); }
+	void SetX(const float& cx)
+	{
+		m_cx = cx;
+		rect.left = cx - (m_width * 0.5f);
+		rect.right = cx + (m_width * 0.5f);
+	}
+	void SetY(const float& cy)
+	{
+		m_cy = cy;
+		rect.top = cy - (m_height * 0.5f);
+		rect.bottom = cy + (m_height * 0.5f);
+	}
+	void SetWidth(const float& width) {	m_width = width; }
+	void SetHeight(const float& height) { m_height = height; }
+
+	float GetX() const      { return m_cx; };
+	float GetY() const      { return m_cy; };
+	float GetWidth() const  { return m_width; };
+	float GetHeight() const { return m_height; };
+
+	void update(const float& cx, const float& cy)
 	{
 		rect.left   = cx - (m_width * 0.5f);
 		rect.right  = cx + (m_width * 0.5f);
@@ -162,10 +195,66 @@ public:
 		m_cy = cy;
 	}
 
+	void operator=(const BoundingBox_2D& other)
+	{
+		rect     = other.rect;
+		m_cx     = other.m_cx;
+		m_cy     = other.m_cy;
+		m_width  = other.m_width;
+		m_height = other.m_height;
+	}
+
+	void operator+=(const BoundingBox_2D& other)
+	{
+			m_cx	+= other.m_cx;
+			m_cy	+= other.m_cy;
+
+		rect.left   += other.m_cx;
+		rect.right  += other.m_cx;
+		rect.top    += other.m_cy;
+		rect.bottom += other.m_cy;
+	}
+
+	BoundingBox_2D operator+(const BoundingBox_2D& other)
+	{
+		BoundingBox_2D box;
+		box.m_cx = m_cx + other.m_cx;
+		box.m_cy = m_cy + other.m_cy;
+
+		box.rect.left    = rect.left    + other.m_cx;
+		box.rect.right   = rect.right   + other.m_cx;
+		box.rect.top     = rect.top     + other.m_cy;
+		box.rect.bottom  = rect.bottom  + other.m_cy;
+		return box;
+	}
+
+
 };
 
 namespace Radar
 {
+	static bool isImage(const std::wstring& path)
+	{
+		TCHAR exe[10];
+		_wsplitpath(path.c_str(), NULL, NULL, NULL, exe);
+		if (!wcscmp(exe, TEXT(".png"))) return true;
+		if (!wcscmp(exe, TEXT(".jpg")))	return true;
+		if (!wcscmp(exe, TEXT(".bmp")))	return true;
+		if (!wcscmp(exe, TEXT(".PNG"))) return true;
+		if (!wcscmp(exe, TEXT(".JPG")))	return true;
+		if (!wcscmp(exe, TEXT(".BMP")))	return true;
+		return false;
+	}
+
+	static bool GetFileName(std::wstring& output, const std::wstring& path)
+	{
+		output.clear();
+		TCHAR name[100];
+		_wsplitpath(path.c_str(), NULL, NULL, name, NULL);
+		output = name;
+		return !(output.empty());
+	}
+
 	static std::vector<std::wstring> FilePathRead(const std::wstring& path)
 	{
 		std::vector<std::wstring> vArchivePath;

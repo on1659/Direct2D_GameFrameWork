@@ -2,6 +2,7 @@
 #include "SceneMain.h"
 #include "LoadD2DBitmap.h"
 #include "GameFrameWork_D2D.h"
+#include "Draw.h"
 
 CSceneMain::CSceneMain(const std::string& name) : CSceneState(name)
 {
@@ -27,8 +28,8 @@ void CSceneMain::enter(HINSTANCE hInstance, HWND hWnd, Microsoft::WRL::ComPtr<ID
 
 
 
-	sprite.Create(TEXT("윈드밀"), 400, 400, 200, 200, 5, 7);
-
+	sprite.Create(TEXT("윈드밀"), 200, 400, 200, 200, 1, 1);
+	graphicObject.Create(TEXT("윈드밀"), 500, 400, 200, 200);
 }
 void CSceneMain::exit()
 {
@@ -75,7 +76,9 @@ void CSceneMain::Render(ID2D1HwndRenderTarget *pd2dRenderTarget)
 	pos.bottom += 100;
 
 	pd2dRenderTarget->DrawBitmap(RENDERMGR_2D->GetImage(TEXT("Player_Attack_Right")), &pos , 1.0f) ;
+	graphicObject.Render(pd2dRenderTarget);
 	
+
 
 }
 void CSceneMain::Update(const float& fTime)
@@ -89,6 +92,14 @@ void CSceneMain::Update(const float& fTime)
 	if (Input->KeyUp(YT_KEY::YK_F1))	player_size += 5;
 	if (Input->KeyUp(YT_KEY::YK_F2))	player_size -= 5;
 
+
+	if (!DROPMGR->empty())
+	{
+		auto info = DROPMGR->pop();
+
+		if (info.vDropType[0] == DropInfo_TYPE::DROP_IMAGE)
+			graphicObject.SetImageName(info.vFileName[0]);
+	}
 }
 
 void CSceneMain::LateUpdate(const float& fTime)

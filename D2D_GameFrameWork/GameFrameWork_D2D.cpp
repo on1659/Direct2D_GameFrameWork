@@ -1,8 +1,10 @@
+
 #include "stdafx.h"
 #include "GameFrameWork_D2D.h"
 #include "Util.h"
 
 #include "SceneMain.h"
+#include "Shellapi.h"
 
 CGameFrameWork_D2D::CGameFrameWork_D2D(const std::string& name)
 	: CSingleTonBase(name)
@@ -57,27 +59,56 @@ void CGameFrameWork_D2D::Initialize(HINSTANCE hInstance, HWND hWnd)
 	//My Brush
 	MyColor::GetInstance()->Load(m_hWndRenderTarget.Get());
 
+	//My Draw
+	MyFont::GetInstance()->Load(m_pdwFactory.Get());
+
 	//Scene Load
 	CGameFrameWork_D2D::enter(hInstance, hWnd);
 
+}
 
+void CGameFrameWork_D2D::CreateConsole()
+{
+	AllocConsole();
 
+	freopen("CONIN&", "r", stdin);
+	freopen("CONIN&", "w", stdout);
+	freopen("CONIN&", "w", stderr);
+
+}
+
+void CGameFrameWork_D2D::DeostryConsole()
+{
+	FreeConsole();
 }
 
 void CGameFrameWork_D2D::enter(HINSTANCE hInstance, HWND hWnd)
 {
+	#ifdef _DEBUG
+		CreateConsole();
+	#endif
+	
+	DROPMGR->DropMode(true, m_hWnd);
+	//DragAcceptFiles(m_hWnd, true);
+
 	m_pScene = std::make_unique<CSceneMain>();
 	m_pScene->enter(m_hInstance, m_hWnd, m_pd2dFactory, m_hWndRenderTarget.Get());
-
 
 }
  
 bool CGameFrameWork_D2D::Release()
 {
+	#ifdef _DEBUG
+		DeostryConsole();
+	#endif
 	m_pScene->Release();
 	RENDERMGR_2D->Release();
 	MyColor::GetInstance()->Release();
 	MyColor::GetInstance()->ReleseInstance();
+
+	MyFont::GetInstance()->Release();
+	MyFont::GetInstance()->ReleseInstance();
+
 	return false;
 }
 
@@ -128,7 +159,6 @@ bool CGameFrameWork_D2D::CreateIndependentResources()
 	
 }
 
-
 bool CGameFrameWork_D2D::CreateHwndRenderTarget()
 {
 	RECT rc{};
@@ -152,6 +182,8 @@ bool CGameFrameWork_D2D::CreateHwndRenderTarget()
 
 LRESULT CGameFrameWork_D2D::WndProc(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
 {
+	if (DROPMGR->OnProcessingMouseMessage(hWnd, nMessageID, wParam, lParam)) return false;
+
 	switch (nMessageID)
 	{
 	case WM_DESTROY:
@@ -168,13 +200,12 @@ void CGameFrameWork_D2D::Update(const float& fTime)
 	INPUT->Update(fTime);
 	m_pScene->Update(fTime);
 
-	if(Input->OnlyKeyDown(YK_0)) PostQuitMessage(0);
+	if(Input->OnlyKeyDown(YK_Q))PostQuitMessage(0);
 }
 
 void CGameFrameWork_D2D::LateUpdate(const float& fTime)
 {
 }
-
 
 void CGameFrameWork_D2D::Render()
 {
@@ -190,10 +221,10 @@ void CGameFrameWork_D2D::Render()
 
 void CGameFrameWork_D2D::FrameAdvance()
 {
-	auto fTick = TIMER->Tick(60.0f);
+	auto frame_time = TIMER->Tick(60.0f);
 
 	// 지속적인 상수버퍼의 갱신을 확인하기 위한 Update 함수
-	Update(fTick);
+	Update(frame_time);
 
 	Render();
 

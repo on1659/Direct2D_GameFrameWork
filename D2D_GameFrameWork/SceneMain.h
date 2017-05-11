@@ -25,6 +25,6 @@ private:
 	int				player_size;
 
 	CSpriteObject_2D	sprite;
-
+	CGraphicObject_2D	graphicObject;
 };
 

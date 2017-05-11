@@ -32,12 +32,16 @@ public:
 		auto GetD2DFactory()		 const { return m_pd2dFactory.Get(); }
 		auto GetDWriteFactory()		 const { return m_pdwFactory.Get(); }
 		auto GetDWICImagingFactory() const { return m_wicFactory.Get(); }
+		auto GetD2DRenderTarget()	 const { return m_hWndRenderTarget.Get(); }
 	
 
 private:
 	bool CreateRenderTarget();
 	bool CreateIndependentResources();
 	bool CreateHwndRenderTarget();
+
+	void CreateConsole();
+	void DeostryConsole();
 
 	void enter(HINSTANCE hInstance, HWND hWnd);
 

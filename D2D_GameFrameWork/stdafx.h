@@ -29,12 +29,13 @@
 #include <iostream>
 #include <chrono>
 #include <algorithm>
-
+#include <memory>	
 
 //STL Container
 #include <string>
 #include <vector>
 #include <map>
+#include <array>
 
 // D2D1
 
@@ -71,7 +72,8 @@ using namespace DirectX::PackedVector;
 #include "SingleTon.h"
 #include "SceneState.h"
 #include "InputManager.h"
-#include "MyColor.h"
+#include "DropManager.h"
+#include "DrawHelper.h"
 
 #include "Timer.h"
 #include "Util.h"
@@ -80,15 +82,9 @@ using namespace DirectX::PackedVector;
 #include "SpriteObject_2D.h"
 
 #include "RenderManager_2D.h"
+#include "Component.h"
+#include "GameObject.h"
 
 static HWND gHwnd;
-
-#ifdef _DEBUG
-	#ifdef UNICODE
-		#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
-	#else 
-		#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
-	#endif
-#endif
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.

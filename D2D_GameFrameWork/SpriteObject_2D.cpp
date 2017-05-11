@@ -53,12 +53,11 @@ void CSpriteObject_2D::SetSprite(float frameFPS, int frameCount, int frameCountH
 void CSpriteObject_2D::OnSpriteUpdate()
 {
 	m_frameLeft = m_imgWidth  * (int)m_frameWidth;
-	m_frameTop = m_imgHeight * (int)m_frameCountHeight;
-
+	m_frameTop  = m_imgHeight * (int)m_frameCountHeight;
 
 	m_frameWidth += m_frameFPS;
 
-	if (m_frameWidth > m_frameCount)
+	if (m_frameWidth >= m_frameCount)
 	{
 		m_frameWidth = 0;
 

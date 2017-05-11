@@ -52,14 +52,20 @@
     <Filter Include="2D_Client\08.RenderManager">
       <UniqueIdentifier>{aba28f38-e1cd-461e-ad2a-9fbe6c2b9d2a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2D_Client\08.RenderManager\Graphic">
-      <UniqueIdentifier>{25ba57ff-9f0e-4ec9-a6eb-034940b76930}</UniqueIdentifier>
+    <Filter Include="2D_Client\09. DropManager">
+      <UniqueIdentifier>{3da2bf9b-10e0-45d1-813a-e09bd9993789}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2D_Client\08.RenderManager\Sprite">
+    <Filter Include="2D_Client\04.Object\Sprite">
       <UniqueIdentifier>{5631c227-d43c-4361-9376-73ef898177e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2D_Client\09. MyColor">
-      <UniqueIdentifier>{3da2bf9b-10e0-45d1-813a-e09bd9993789}</UniqueIdentifier>
+    <Filter Include="2D_Client\04.Object\Graphic">
+      <UniqueIdentifier>{25ba57ff-9f0e-4ec9-a6eb-034940b76930}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\09.Componnet">
+      <UniqueIdentifier>{f2c6d6bd-aab0-4004-bcb8-52dd3f5a8b85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\09.Componnet\Script">
+      <UniqueIdentifier>{79879e39-13e8-4668-9026-0697da5f2b26}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -121,16 +127,25 @@
       <Filter>2D_Client\08.RenderManager</Filter>
     </ClInclude>
     <ClInclude Include="GraphicObject_2D.h">
-      <Filter>2D_Client\08.RenderManager\Graphic</Filter>
+      <Filter>2D_Client\04.Object\Graphic</Filter>
     </ClInclude>
     <ClInclude Include="SpriteObject_2D.h">
-      <Filter>2D_Client\08.RenderManager\Sprite</Filter>
+      <Filter>2D_Client\04.Object\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="RenderManager_2D.h">
       <Filter>2D_Client\08.RenderManager</Filter>
     </ClInclude>
-    <ClInclude Include="MyColor.h">
-      <Filter>2D_Client\09. MyColor</Filter>
+    <ClInclude Include="DrawHelper.h">
+      <Filter>2D_Client\98.Util</Filter>
+    </ClInclude>
+    <ClInclude Include="DropManager.h">
+      <Filter>2D_Client\09. DropManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>2D_Client\09.Componnet</Filter>
+    </ClInclude>
+    <ClInclude Include="SampleScript.h">
+      <Filter>2D_Client\09.Componnet\Script</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -162,10 +177,10 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="GraphicObject_2D.cpp">
-      <Filter>2D_Client\08.RenderManager\Graphic</Filter>
+      <Filter>2D_Client\04.Object\Graphic</Filter>
     </ClCompile>
     <ClCompile Include="SpriteObject_2D.cpp">
-      <Filter>2D_Client\08.RenderManager\Sprite</Filter>
+      <Filter>2D_Client\04.Object\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="RenderManager_2D.cpp">
       <Filter>2D_Client\08.RenderManager</Filter>

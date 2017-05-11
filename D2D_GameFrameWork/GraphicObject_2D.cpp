@@ -35,10 +35,6 @@ void CGraphicObject_2D::Create(const std::wstring & name, const float & cx, cons
 
 void CGraphicObject_2D::SetPosition(float cx, float cy, float width, float height)
 {
-	m_BoundingBox.m_cx = cx; 
-	m_BoundingBox.m_cy = cy;
-	m_BoundingBox.m_width = width;
-	m_BoundingBox.m_height = height;
 	m_BoundingBox.SetBoxCenter(m_BoundingBox.m_cx, m_BoundingBox.m_cy, m_BoundingBox.m_width, m_BoundingBox.m_height);
 }
 
@@ -54,7 +50,10 @@ void CGraphicObject_2D::RenderBoundingBox(ID2D1HwndRenderTarget* pd2dRenderTarge
 
 void CGraphicObject_2D::SetPosition(const float& cx, const float& cy)
 {
-	m_BoundingBox.m_cx = cx;
-	m_BoundingBox.m_cy = cy;
 	m_BoundingBox.SetBoxCenter(m_BoundingBox.m_cx, m_BoundingBox.m_cy, m_BoundingBox.m_width, m_BoundingBox.m_height);
+}
+
+void CGraphicObject_2D::SetBoundingBox(const BoundingBox_2D & boundingBox)
+{
+	m_BoundingBox = boundingBox;
 }

@@ -39,6 +39,8 @@ public:
 
 	void AddRightImage(const std::wstring& name, const std::wstring& path, WICBitmapTransformOptions nFlipRotation = WICBitmapTransformFlipHorizontal);
 
+	//Drop Image
+	bool AddDropImage(const std::wstring& name, const std::wstring& path, WICBitmapTransformOptions nFlipRotation = WICBitmapTransformRotate0);
 
 	void Render(ID2D1HwndRenderTarget *pd2dRenderTarget, const std::wstring& name, const D2D_RECT_F&  pos, const float& alpha, const D2D_RECT_F& sprite);
 

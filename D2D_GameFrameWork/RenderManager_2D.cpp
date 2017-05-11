@@ -6,7 +6,6 @@ CRenderManager_2D::CRenderManager_2D(const std::string& name) : CSingleTonBase(n
 {
 }
 
-
 CRenderManager_2D::~CRenderManager_2D()
 {
 }
@@ -16,15 +15,13 @@ void CRenderManager_2D::Load(Microsoft::WRL::ComPtr<IWICImagingFactory2> pwicFac
 	m_wicFactory = pwicFactory;
 	m_hWndRenderTarget = phWndRenderTarget;
 
-	//Always
-	AddImage(TEXT("Default"), TEXT("../Asset/default.png"));
+	// -- Always -- 
+		AddImage(TEXT("Default"), TEXT("../Asset/default.png"));
+	// -- Always --
 
-	
 
 	AddMirrorFolderImage(TEXT("../Asset/Player/"), TEXT("Player_")) ;
 
-
-	int a = 10;
 }
 
 void CRenderManager_2D::AddMirrorFolderImage(const std::wstring& path, const std::wstring& name, WICBitmapTransformOptions nFlipRotation)
@@ -85,6 +82,42 @@ void CRenderManager_2D::AddRightImage(const std::wstring& name, const std::wstri
 	}
 }
 
+bool CRenderManager_2D::AddDropImage(const std::wstring & name, const std::wstring & path, WICBitmapTransformOptions nFlipRotation)
+{
+	//ID2D1Bitmap* bitmap = nullptr;
+	//if (!LoadD2DImage(path, &bitmap, nFlipRotation))
+	//{
+	//	MessageBox(gHwnd, TEXT("error"), path.c_str(), MB_OK);
+	//	return;
+	//}
+	//auto iter = m_mD2D_Texture.find(name);
+	//
+	////없다는 얘기임
+	//if (iter == m_mD2D_Texture.end())
+	//{
+	//	m_mD2D_Texture.insert(std::make_pair(name, bitmap));
+	//	return true;
+	//}
+	//
+	////있다는 얘기임
+	//else
+	//{
+	//	if (bitmap->GetPixelFormat() == iter->second->GetPixelFormat())
+	//	{
+	//		bitmap->Release();
+	//		bitmap = nullptr;
+	//		return false;
+	//	}
+	//	else
+	//	{
+	//		m_mD2D_Texture.insert(std::make_pair(name + TEXT("1"), bitmap));
+	//		return true;
+	//	}
+	//}
+	return true;
+
+}
+
 void CRenderManager_2D::AddImage(const std::wstring& name, const std::wstring& path, WICBitmapTransformOptions nFlipRotation)
 {
 	if (nullptr == FindImage(name))
@@ -98,8 +131,6 @@ void CRenderManager_2D::AddImage(const std::wstring& name, const std::wstring& p
 		m_mD2D_Texture.insert(std::make_pair(name, bitmap));
 	}
 }
-
-
 
 void CRenderManager_2D::Render(ID2D1HwndRenderTarget* pd2dRenderTarget, const std::wstring& name, const D2D_RECT_F&  pos, const float& alpha)
 {
