@@ -7,6 +7,7 @@
 class Vector2
 {
 	using T = float;
+
 public:
 	T x;	
 	T y;
@@ -19,6 +20,7 @@ public:
 		x = other.x;
 		y = other.y;
 	}
+
 	Vector2(const Vector2&& other)
 	{
 		x = other.x;
@@ -27,12 +29,14 @@ public:
 
 	~Vector2() {}
 
-	void set(const T& x, const T& y) { this->x = x; this->y = y; }
+	void set(const T& x, const T& y) { Vector2::x = x; Vector2::y = y; }
 
 	//const를 붙이는건 other은 수정하지 않는거니깐 붙이는거
 	Vector2& operator+(const Vector2& other) { auto v2 = Vector2(x + other.x, y + other.y); return v2; }
 		void operator+=(const Vector2& other) { x += other.x; y += other.y; }
-		Vector2& operator-(const Vector2& other) { return Vector2(x - other.x, y - other.y);}
+
+
+	Vector2& operator-(const Vector2& other) { return Vector2(x - other.x, y - other.y);}
 		void operator-=(const Vector2& other) {	x -= other.x; y -= other.y; }
 
 
@@ -41,7 +45,7 @@ public:
 	{
 		return Vector2(x * other.x, y * other.y);
 	}
-	void operator*=(const Vector2& other)
+		void operator*=(const Vector2& other)
 	{
 		x *= other.x; y *= other.y;
 	}
@@ -50,7 +54,7 @@ public:
 	{
 		return Vector2(x * a, y * a);
 	}
-	void operator*=(const float& a)
+		void operator*=(const float& a)
 	{
 		x *= a; y *= a;
 	}
@@ -59,11 +63,11 @@ public:
 	{
 		return Vector2(x / other.x, y / other.y);
 	}
-	void operator/=(const Vector2& other)
+		void operator/=(const Vector2& other)
 	{
 		x /= other.x; y /= other.y;
 	}
-
+	
 	Vector2& operator/(const float& a) const
 	{
 		return Vector2(x / a, y / a);
@@ -73,15 +77,17 @@ public:
 		x /= a; y /= a;
 	}
 
+		void operator=(const Vector2& other) { x = other.x; y = other.y; }
+
 	float dot(Vector2 other) const
 	{
 		return (x * other.x) + (y * other.y);
 	}
 
-		inline float scale() const { return sqrt((x * x) + (y * y)); }
+	inline float scale() const { return sqrt((x * x) + (y * y)); }
 
-	//단휘벡터 만들기 
-		Vector2& normalize() const
+	//단위벡터 만들기 
+	Vector2& normalize() const
 	{
 		float s = scale();
 		return Vector2(x / s, y / s);
@@ -101,37 +107,40 @@ class BoundingBox_2D
 public:
 	D2D_RECT_F     rect;
 
-	float			m_cx;
-	float			m_cy;
-	float			m_width;
-	float			m_height;
+	Vector2			m_position;
+	Vector2			m_size;
 
 public:
 		
-	
+	void SetBoxLTRD(const Vector2& pos, const Vector2& size)
+	{
+		SetBoxLTRD(pos.x, pos.y, size.x, size.y);
+	}
 	void SetBoxLTRD(const float& left, const float& top, const float& right, const float& bot)
 	{
-		rect.left	= left; 
-		rect.right	= right;
-		rect.top	= top; 
-		rect.bottom = bot;
-		m_width		= right - left;
-		m_height	= bot - top;
-		m_cx		= left + (m_width * 0.5f);
-		m_cy		= top  + (m_height * 0.5f);
+		rect.left		= left; 
+		rect.right		= right;
+		rect.top		= top; 
+		rect.bottom		= bot;
+		m_size.x			= right - left;
+		m_size.y		= bot - top;
+		m_position.x		= left + (m_size.x * 0.5f);
+		m_position.y		= top  + (m_size.y * 0.5f);
 	}
 
-	void SetBoxCenter(const float& cx, const float& cy, const float& w, const float& h)
+	void SetBoxCenter(const BoundingBox_2D& boundingbox) { SetBoxCenter(boundingbox.m_position, boundingbox.m_size); }
+	void SetBoxCenter(const Vector2& pos, const Vector2& size) { SetBoxCenter(pos.x, pos.y, size.x, size.y);	}
+	void SetBoxCenter(const float& x, const float& y, const float& w, const float& h)
 	{
-		m_width		  = w;
-		m_height	  = h;
-		m_cx		  = cx;
-		m_cy		  = cy;
+		m_size.x		= w;
+		m_size.y		= h;
+		m_position.x	= x;
+		m_position.y	= y;
 
-		rect.left	  = cx - (w * 0.5f);
-		rect.right	  = cx + (w * 0.5f);
-		rect.top	  = cy - (h * 0.5f);
-		rect.bottom	  = cy + (h * 0.5f);
+		rect.left		= x - (w * 0.5f);
+		rect.right		= x + (w * 0.5f);
+		rect.top		= y - (h * 0.5f);
+		rect.bottom		= y + (h * 0.5f);
 	}
 
 	bool collision(const BoundingBox_2D& other)
@@ -142,8 +151,9 @@ public:
 		if (rect.bottom < other.rect.top)return false;
 		return true;
 	}
-
-	bool contains(const float& x, const float& y)
+	
+	bool contains(const Vector2& v2) const { return contains(v2.x, v2.y); }
+	bool contains(const float& x, const float& y) const
 	{
 		return rect.left < rect.right 
 			&& rect.top < rect.bottom
@@ -151,80 +161,159 @@ public:
 			&& rect.top <= y  && y < rect.bottom;
 	}
 
-	void offset(const float& cx, const float& cy)
+	void offset(const Vector2& v2) { offset(v2.x, v2.y); }
+	void offset(const float& x, const float& y)
 	{
-		m_cx = m_cx + cx;
-		m_cy = m_cy + cy;
+		m_position.x = m_position.x + x;
+		m_position.y = m_position.y + y;
 
-		rect.left    += cx;
-		rect.right   += cx;
-		rect.top     += cy;
-		rect.bottom  += cy;
+		rect.left    += x;
+		rect.right   += x;
+		rect.top     += y;
+		rect.bottom  += y;
 
 	}
 
-	void Set(const float& cx, const float& cy) { update(cx, cy); }
-	void SetX(const float& cx)
-	{
-		m_cx = cx;
-		rect.left = cx - (m_width * 0.5f);
-		rect.right = cx + (m_width * 0.5f);
-	}
-	void SetY(const float& cy)
-	{
-		m_cy = cy;
-		rect.top = cy - (m_height * 0.5f);
-		rect.bottom = cy + (m_height * 0.5f);
-	}
-	void SetWidth(const float& width) {	m_width = width; }
-	void SetHeight(const float& height) { m_height = height; }
+	const Vector2& GetPosition() const { return m_position; }
+	const Vector2& GetSize()	 const { return m_size; }
 
-	float GetX() const      { return m_cx; };
-	float GetY() const      { return m_cy; };
-	float GetWidth() const  { return m_width; };
-	float GetHeight() const { return m_height; };
-
-	void update(const float& cx, const float& cy)
+	void Set(const Vector2& v2) { update(v2.x, v2.y); }
+	void Set(const float& x, const float& y) { update(x, y); }
+	void Set(const float& x, const float& y, const float& w, const float& h) 
 	{
-		rect.left   = cx - (m_width * 0.5f);
-		rect.right  = cx + (m_width * 0.5f);
-		rect.top    = cy - (m_height * 0.5f);
-		rect.bottom = cy + (m_height * 0.5f);
+		SetSize(w, h);
+		update(x, y); 
+	}
+
+	void SetX(const float& x)
+	{
+		m_position.x = x;
+		rect.left = x - (m_size.x * 0.5f);
+		rect.right = x + (m_size.x * 0.5f);
+	}
+	void SetY(const float& y)
+	{
+		m_position.y = y;
+		rect.top = y - (m_size.y * 0.5f);
+		rect.bottom = y + (m_size.y * 0.5f);
+	}
+
+	void SetSize(const float& w, const float& h)	{ SetWidth(w); SetHeight(h); }
+	void SetSize(const Vector2& size)				{ SetSize(size.x, size.y); }
+	void SetWidth(const float& width)				{ m_size.x = width; }
+	void SetHeight(const float& height)				{ m_size.y = height; }
+
+	float GetX() const      { return m_position.x; };
+	float GetY() const      { return m_position.y; };
+	float GetWidth() const  { return m_size.x; };
+	float GetHeight() const { return m_size.y; };
+
+	void update(const Vector2& v2) { update(v2.x, v2.y); }
+	void update(const float& x, const float& y)
+	{
+		rect.left   = x - (m_size.x * 0.5f);
+		rect.right  = x + (m_size.x * 0.5f);
+		rect.top    = y - (m_size.y * 0.5f);
+		rect.bottom = y + (m_size.y * 0.5f);
 		
-		m_cx = cx;
-		m_cy = cy;
+		m_position.x = x;
+		m_position.y = y;
 	}
 
 	void operator=(const BoundingBox_2D& other)
 	{
-		rect     = other.rect;
-		m_cx     = other.m_cx;
-		m_cy     = other.m_cy;
-		m_width  = other.m_width;
-		m_height = other.m_height;
+		rect			= other.rect;
+		m_position.x    = other.m_position.x;
+		m_position.y    = other.m_position.y;
+		m_size.x		= other.m_size.x;
+		m_size.y		= other.m_size.y;
 	}
 
+	void operator+=(const Vector2& v2)
+	{
+		m_position.x += v2.x;
+		m_position.y += v2.y;
+
+		rect.left    += v2.x;
+		rect.right   += v2.x;
+		rect.top     += v2.y;
+		rect.bottom  += v2.y;
+	}
 	void operator+=(const BoundingBox_2D& other)
 	{
-			m_cx	+= other.m_cx;
-			m_cy	+= other.m_cy;
+		m_position.x += other.m_position.x;
+		m_position.y += other.m_position.y;
 
-		rect.left   += other.m_cx;
-		rect.right  += other.m_cx;
-		rect.top    += other.m_cy;
-		rect.bottom += other.m_cy;
+		rect.left    += other.m_position.x;
+		rect.right   += other.m_position.x;
+		rect.top     += other.m_position.y;
+		rect.bottom  += other.m_position.y;
 	}
 
+	void operator-=(const Vector2& v2)
+	{
+		m_position.x -= v2.x;
+		m_position.y -= v2.y;
+
+		rect.left    -= v2.x;
+		rect.right   -= v2.x;
+		rect.top     -= v2.y;
+		rect.bottom  -= v2.y;
+	}
+	void operator-=(const BoundingBox_2D& other)
+	{
+		m_position.x -= other.m_position.x;
+		m_position.y -= other.m_position.y;
+
+		rect.left    -= other.m_position.x;
+		rect.right   -= other.m_position.x;
+		rect.top     -= other.m_position.y;
+		rect.bottom  -= other.m_position.y;
+	}
+
+	void operator*=(const Vector2& v2)
+	{
+		m_position.x *= v2.x;
+		m_position.y *= v2.y;
+
+		rect.left    *= v2.x;
+		rect.right   *= v2.x;
+		rect.top     *= v2.y;
+		rect.bottom  *= v2.y;
+	}
+	void operator*=(const BoundingBox_2D& other)
+	{
+		m_position.x *= other.m_position.x;
+		m_position.y *= other.m_position.y;
+
+		rect.left    *= other.m_position.x;
+		rect.right   *= other.m_position.x;
+		rect.top     *= other.m_position.y;
+		rect.bottom  *= other.m_position.y;
+	}
+
+	BoundingBox_2D operator+(const Vector2& v2)
+	{
+		BoundingBox_2D box;
+		box.m_position.x = m_position.x + v2.x;
+		box.m_position.y = m_position.y + v2.y;
+
+		box.rect.left    = rect.left    + v2.x;
+		box.rect.right   = rect.right   + v2.x;
+		box.rect.top     = rect.top     + v2.y;
+		box.rect.bottom  = rect.bottom  + v2.y;
+		return box;
+	}
 	BoundingBox_2D operator+(const BoundingBox_2D& other)
 	{
 		BoundingBox_2D box;
-		box.m_cx = m_cx + other.m_cx;
-		box.m_cy = m_cy + other.m_cy;
+		box.m_position.x = m_position.x + other.m_position.x;
+		box.m_position.y = m_position.y + other.m_position.y;
 
-		box.rect.left    = rect.left    + other.m_cx;
-		box.rect.right   = rect.right   + other.m_cx;
-		box.rect.top     = rect.top     + other.m_cy;
-		box.rect.bottom  = rect.bottom  + other.m_cy;
+		box.rect.left    = rect.left    + other.m_position.x;
+		box.rect.right   = rect.right   + other.m_position.x;
+		box.rect.top     = rect.top     + other.m_position.y;
+		box.rect.bottom  = rect.bottom  + other.m_position.y;
 		return box;
 	}
 

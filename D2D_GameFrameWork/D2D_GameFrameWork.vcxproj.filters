@@ -64,8 +64,11 @@
     <Filter Include="2D_Client\09.Componnet">
       <UniqueIdentifier>{f2c6d6bd-aab0-4004-bcb8-52dd3f5a8b85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2D_Client\09.Componnet\Script">
+    <Filter Include="2D_Client\10.Script">
       <UniqueIdentifier>{79879e39-13e8-4668-9026-0697da5f2b26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\10.Script\Move">
+      <UniqueIdentifier>{1b2c7373-a2ce-44fd-ae7c-0dfc0e79cfe3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +148,10 @@
       <Filter>2D_Client\09.Componnet</Filter>
     </ClInclude>
     <ClInclude Include="SampleScript.h">
-      <Filter>2D_Client\09.Componnet\Script</Filter>
+      <Filter>2D_Client\10.Script</Filter>
+    </ClInclude>
+    <ClInclude Include="InputScript.h">
+      <Filter>2D_Client\10.Script\Move</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

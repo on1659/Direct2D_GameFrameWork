@@ -13,14 +13,15 @@ public:
 	
 	~Component()  {	gameObject = nullptr; }
 
-	virtual bool Release() override { gameObject = nullptr; }
+	virtual bool Release() override { gameObject = nullptr;  return true; }
 
 	virtual void Start(CGameObject* gameObject) { Component::gameObject = gameObject; }
 
 	virtual void BeforeMove(CGameObject* other) {}
 
-	virtual void OnUpdate(const float& frame_time) {}
+	virtual void Update(const float& frame_time) {}
 
 	virtual void PlayerUpdate(const float& frame_time) {}
 
+	void SetGameObject(CGameObject* gameObject) { Component::gameObject = gameObject; }
 };

@@ -175,6 +175,7 @@
     </ClInclude>
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SceneState.h" />
+    <ClInclude Include="InputScript.h" />
     <ClInclude Include="SingleTon.h" />
     <ClInclude Include="SpriteObject_2D.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

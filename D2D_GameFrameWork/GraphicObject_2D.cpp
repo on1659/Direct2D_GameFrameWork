@@ -9,51 +9,64 @@ CGraphicObject_2D::CGraphicObject_2D(const std::string& name) : CObject_D2D(name
 {
 }
 
+CGraphicObject_2D::CGraphicObject_2D(const std::wstring& name)
+{
+	m_imageName = name;
+	std::string str_name;
+	str_name.assign(name.begin(), name.end());
+	CObject_D2D::CObject_D2D(str_name);
+}
+
 CGraphicObject_2D::~CGraphicObject_2D()
 {
 }
 
-void CGraphicObject_2D::Create(const std::wstring & name, const float & cx, const float & cy, const float & width, const float & height)
+void CGraphicObject_2D::Create(const std::wstring & name, const Vector2 & position, const Vector2 & size)
+{
+	CGraphicObject_2D::Create(name, position.x, position.y, size.x, size.y);
+}
+
+void CGraphicObject_2D::Create(const std::wstring & name, const float &x, const float &y, const float & width, const float & height)
 {
 	m_imageName = name;
 
 	m_imgWidth  = (float)CRenderManager_2D::GetInstance()->GetImage(m_imageName)->GetSize().width;
 	m_imgHeight = (float)CRenderManager_2D::GetInstance()->GetImage(m_imageName)->GetSize().height;
 
-	m_BoundingBox.m_cx = cx;
-	m_BoundingBox.m_cy = cy;
+	m_bcBoundingBox.SetX(x);
+	m_bcBoundingBox.SetY(y);
 
-	m_BoundingBox.m_width = width;
-	m_BoundingBox.m_height = height;
+	m_bcBoundingBox.SetWidth(width);
+	m_bcBoundingBox.SetHeight(height);
 
-	if (m_BoundingBox.m_width == 0)  m_BoundingBox.m_width = m_imgWidth;
-	if (m_BoundingBox.m_height == 0) m_BoundingBox.m_height = m_imgHeight;
+	if ( width  == 0 || width  >= 0xFFFF )  m_bcBoundingBox.SetWidth(m_imgWidth);
+	if ( height == 0 || height >= 0xFFFF )  m_bcBoundingBox.SetHeight(m_imgHeight);
 
-	m_BoundingBox.SetBoxCenter(m_BoundingBox.m_cx, m_BoundingBox.m_cy, m_BoundingBox.m_width, m_BoundingBox.m_height);
+	m_bcBoundingBox.SetBoxCenter(m_bcBoundingBox.m_position, m_bcBoundingBox.m_size);
 
 }
 
-void CGraphicObject_2D::SetPosition(float cx, float cy, float width, float height)
+void CGraphicObject_2D::SetPosition(const float&  x, const float&  y, const float&  width, const float&  height)
 {
-	m_BoundingBox.SetBoxCenter(m_BoundingBox.m_cx, m_BoundingBox.m_cy, m_BoundingBox.m_width, m_BoundingBox.m_height);
+	m_bcBoundingBox.SetBoxCenter(x, y, width, height);
 }
 
 void CGraphicObject_2D::Render(ID2D1HwndRenderTarget *pd2dRenderTarget)
 {
-	RENDERMGR_2D->Render(pd2dRenderTarget, m_imageName, m_BoundingBox.rect, m_alpha);
+	RENDERMGR_2D->Render(pd2dRenderTarget, m_imageName, m_bcBoundingBox.rect, m_alpha);
 }
 
 void CGraphicObject_2D::RenderBoundingBox(ID2D1HwndRenderTarget* pd2dRenderTarget)
 {
-	//pd2dRenderTarget->DrawRectangle(m_BoundingBox.rect, MyColor::GetColor(MyColorEnum::Red));
+	//pd2dRenderTarget->DrawRectangle(m_bcBoundingBox.rect, MyColor::GetColor(MyColorEnum::Red));
 }
 
-void CGraphicObject_2D::SetPosition(const float& cx, const float& cy)
+void CGraphicObject_2D::SetPosition(const float& x, const float& y)
 {
-	m_BoundingBox.SetBoxCenter(m_BoundingBox.m_cx, m_BoundingBox.m_cy, m_BoundingBox.m_width, m_BoundingBox.m_height);
+	m_bcBoundingBox.SetBoxCenter(x, y);
 }
 
 void CGraphicObject_2D::SetBoundingBox(const BoundingBox_2D & boundingBox)
 {
-	m_BoundingBox = boundingBox;
+	m_bcBoundingBox = boundingBox;
 }

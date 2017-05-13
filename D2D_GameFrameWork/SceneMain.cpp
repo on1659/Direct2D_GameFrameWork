@@ -4,6 +4,9 @@
 #include "GameFrameWork_D2D.h"
 #include "Draw.h"
 
+
+#include "InputScript.h"
+
 CSceneMain::CSceneMain(const std::string& name) : CSceneState(name)
 {
 }
@@ -30,6 +33,15 @@ void CSceneMain::enter(HINSTANCE hInstance, HWND hWnd, Microsoft::WRL::ComPtr<ID
 
 	sprite.Create(TEXT("윈드밀"), 200, 400, 200, 200, 1, 1);
 	graphicObject.Create(TEXT("윈드밀"), 500, 400, 200, 200);
+
+	CSpriteObject_2D sprite;
+	sprite.SetSprite(TEXT("Player_attack_Left"), 10, 7);
+	gameObject.Set(Vector2(100, 100), Vector2(30, 70));
+	gameObject.PushSprite(sprite);
+	
+	auto inputScript = std::make_unique<InputScript>();
+	gameObject.SetComponent(std::move(inputScript));
+
 }
 void CSceneMain::exit()
 {
@@ -78,16 +90,16 @@ void CSceneMain::Render(ID2D1HwndRenderTarget *pd2dRenderTarget)
 	pd2dRenderTarget->DrawBitmap(RENDERMGR_2D->GetImage(TEXT("Player_Attack_Right")), &pos , 1.0f) ;
 	graphicObject.Render(pd2dRenderTarget);
 	
-
+	gameObject.Render(pd2dRenderTarget);
 
 }
 void CSceneMain::Update(const float& fTime)
 {
 
-	if (INPUT->OnlyKeyDown(YT_KEY::YK_W))	playerPos.y -= player_size;
-	if (INPUT->OnlyKeyDown(YT_KEY::YK_A))	playerPos.x -= player_size;
-	if (INPUT->OnlyKeyDown(YT_KEY::YK_S))	playerPos.y += player_size;
-	if (INPUT->OnlyKeyDown(YT_KEY::YK_D))	playerPos.x += player_size;
+	//if (INPUT->OnlyKeyDown(YT_KEY::YK_W))	playerPos.y -= player_size;
+	//if (INPUT->OnlyKeyDown(YT_KEY::YK_A))	playerPos.x -= player_size;
+	//if (INPUT->OnlyKeyDown(YT_KEY::YK_S))	playerPos.y += player_size;
+	//if (INPUT->OnlyKeyDown(YT_KEY::YK_D))	playerPos.x += player_size;
 
 	if (Input->KeyUp(YT_KEY::YK_F1))	player_size += 5;
 	if (Input->KeyUp(YT_KEY::YK_F2))	player_size -= 5;
@@ -100,6 +112,8 @@ void CSceneMain::Update(const float& fTime)
 		if (info.vDropType[0] == DropInfo_TYPE::DROP_IMAGE)
 			graphicObject.SetImageName(info.vFileName[0]);
 	}
+
+ 	gameObject.Update(fTime);
 }
 
 void CSceneMain::LateUpdate(const float& fTime)

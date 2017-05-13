@@ -26,5 +26,7 @@ private:
 
 	CSpriteObject_2D	sprite;
 	CGraphicObject_2D	graphicObject;
+
+	CGameObject			gameObject;
 };
 
