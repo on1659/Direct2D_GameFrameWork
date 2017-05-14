@@ -36,7 +36,8 @@ public:
 		void operator+=(const Vector2& other) { x += other.x; y += other.y; }
 
 
-	Vector2& operator-(const Vector2& other) { return Vector2(x - other.x, y - other.y);}
+	Vector2& operator-(Vector2& other) { return Vector2(x - other.x, y - other.y); }
+ 	Vector2& operator-(const Vector2& other) { return Vector2(x - other.x, y - other.y);}
 		void operator-=(const Vector2& other) {	x -= other.x; y -= other.y; }
 
 
@@ -122,10 +123,10 @@ public:
 		rect.right		= right;
 		rect.top		= top; 
 		rect.bottom		= bot;
-		m_size.x			= right - left;
+		m_size.x		= right - left;
 		m_size.y		= bot - top;
-		m_position.x		= left + (m_size.x * 0.5f);
-		m_position.y		= top  + (m_size.y * 0.5f);
+		m_position.x	= left + (m_size.x * 0.5f);
+		m_position.y	= top  + (m_size.y * 0.5f);
 	}
 
 	void SetBoxCenter(const BoundingBox_2D& boundingbox) { SetBoxCenter(boundingbox.m_position, boundingbox.m_size); }
@@ -143,15 +144,18 @@ public:
 		rect.bottom		= y + (h * 0.5f);
 	}
 
-	bool collision(const BoundingBox_2D& other)
+	bool collision(BoundingBox_2D& other)
 	{
-		if (rect.left > other.rect.right)return false;
-		if (rect.right < other.rect.left)return false;
-		if (rect.top > other.rect.bottom)return false;
-		if (rect.bottom < other.rect.top)return false;
+		return collision(other.GetRect());
+	}
+	bool collision(const D2D_RECT_F& rect)
+	{
+		if (rect.left   > rect.right)return false;
+		if (rect.right  < rect.left)return false;
+		if (rect.top    > rect.bottom)return false;
+		if (rect.bottom < rect.top)return false;
 		return true;
 	}
-	
 	bool contains(const Vector2& v2) const { return contains(v2.x, v2.y); }
 	bool contains(const float& x, const float& y) const
 	{
@@ -200,13 +204,26 @@ public:
 
 	void SetSize(const float& w, const float& h)	{ SetWidth(w); SetHeight(h); }
 	void SetSize(const Vector2& size)				{ SetSize(size.x, size.y); }
-	void SetWidth(const float& width)				{ m_size.x = width; }
+	void SetWidth(const float& width)				{ m_size.x = width;  }
 	void SetHeight(const float& height)				{ m_size.y = height; }
 
-	float GetX() const      { return m_position.x; };
-	float GetY() const      { return m_position.y; };
-	float GetWidth() const  { return m_size.x; };
-	float GetHeight() const { return m_size.y; };
+	const float& GetX() const      { return m_position.x; };
+	const float& GetY() const      { return m_position.y; };
+	const float& GetWidth() const  { return m_size.x; };
+	const float& GetHeight() const { return m_size.y; };
+	D2D_RECT_F GetRect() 
+	{ 
+		update();
+		return rect; 
+	}
+
+	void update()
+	{
+		rect.left	= m_position.x - (m_size.x * 0.5f);
+		rect.right	= m_position.x + (m_size.x * 0.5f);
+		rect.top	= m_position.y - (m_size.y * 0.5f);
+		rect.bottom = m_position.y + (m_size.y * 0.5f);
+	}
 
 	void update(const Vector2& v2) { update(v2.x, v2.y); }
 	void update(const float& x, const float& y)
@@ -320,12 +337,26 @@ public:
 
 };
 
+inline static D2D_RECT_F operator+(const D2D_RECT_F& a, const D2D_RECT_F& b)
+{
+	return D2D_RECT_F{a.left + b.left, a.top + b.top, a.right + b.right, a.bottom + b.bottom};
+}
+inline static D2D_RECT_F operator-(const D2D_RECT_F& a, const D2D_RECT_F& b)
+{
+	return D2D_RECT_F{ a.left - b.left, a.top - b.top, a.right - b.right, a.bottom - b.bottom };
+}
+inline static D2D_RECT_F operator*(const D2D_RECT_F& a, const D2D_RECT_F& b)
+{
+	return D2D_RECT_F{ a.left * b.left, a.top * b.top, a.right * b.right, a.bottom * b.bottom };
+}
+
 namespace Radar
 {
 	static bool isImage(const std::wstring& path)
 	{
 		TCHAR exe[10];
-		_wsplitpath(path.c_str(), NULL, NULL, NULL, exe);
+		_wsplitpath_s(path.c_str(), NULL,	  NULL,	      NULL,  NULL,    NULL,    NULL,		exe, 10);
+						//path		dirve drivesize  directory   dirSize  fileName  filenameSize exe  exesize
 		if (!wcscmp(exe, TEXT(".png"))) return true;
 		if (!wcscmp(exe, TEXT(".jpg")))	return true;
 		if (!wcscmp(exe, TEXT(".bmp")))	return true;
@@ -339,7 +370,9 @@ namespace Radar
 	{
 		output.clear();
 		TCHAR name[100];
-		_wsplitpath(path.c_str(), NULL, NULL, name, NULL);
+		_wsplitpath_s(path.c_str(), NULL,	  NULL,	      NULL,  NULL, name,    100, NULL, NULL);
+						//path		dirve drivesize  directory   dirSize  fileName  filenameSize exe  exesize
+		//_wsplitpath(path.c_str(), NULL, NULL, name, NULL);
 		output = name;
 		return !(output.empty());
 	}

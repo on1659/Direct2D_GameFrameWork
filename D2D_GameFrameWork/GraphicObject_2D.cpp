@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "GraphicObject_2D.h"
 #include "RenderManager_2D.h"
+#include "Camera_2D.h"
 #include "Util.h"
 
 
@@ -54,6 +55,38 @@ void CGraphicObject_2D::SetPosition(const float&  x, const float&  y, const floa
 void CGraphicObject_2D::Render(ID2D1HwndRenderTarget *pd2dRenderTarget)
 {
 	RENDERMGR_2D->Render(pd2dRenderTarget, m_imageName, m_bcBoundingBox.rect, m_alpha);
+}
+
+void CGraphicObject_2D::Render(ID2D1HwndRenderTarget * pd2dRenderTarget, CCamera_2D *pCamera)
+{
+	
+	if (false == pCamera->isVisible(GetRect()))
+		return;
+	
+	Render(pd2dRenderTarget, pCamera->GetRect());
+
+}
+
+void CGraphicObject_2D::Render(ID2D1HwndRenderTarget * pd2dRenderTarget, const D2D_RECT_F rtCamera)
+{
+	auto myRect = GetRect();
+	auto rtCamRect = rtCamera;
+	auto rtCameraWorldRect = myRect - rtCamRect;
+
+	D2D_RECT_F rtPos{ 0.0f, 0.0f, 0.0f, 0.0f };
+	rtPos.left = rtCameraWorldRect.left;
+	rtPos.top = rtCameraWorldRect.top;
+	rtPos.right = min(WIDTH, rtCameraWorldRect.left + GetWidth());
+	rtPos.bottom = min(HEIGHT, rtCameraWorldRect.top + GetHeight());
+
+
+	D2D_RECT_F rtSrc{ 0.0f, 0.0f, 0.0f, 0.0f };
+
+	rtSrc.right = min(rtSrc.left + (rtPos.right - rtPos.left), GetWidth());// (pCamera->GetWidth(), rtPos.left + GetWidth());
+	rtSrc.bottom = min(rtSrc.top + (rtPos.bottom - rtPos.top), GetHeight());//min(pCamera->GetHeight(), rtPos.top + GetHeight());
+
+
+	RENDERMGR_2D->Render(pd2dRenderTarget, m_imageName, rtPos, m_alpha, rtSrc);
 }
 
 void CGraphicObject_2D::RenderBoundingBox(ID2D1HwndRenderTarget* pd2dRenderTarget)

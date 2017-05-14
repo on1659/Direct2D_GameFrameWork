@@ -43,7 +43,7 @@ private:
 	void CreateConsole();
 	void DeostryConsole();
 
-	void enter(HINSTANCE hInstance, HWND hWnd);
+	void Start(HINSTANCE hInstance, HWND hWnd);
 
 private:
 	RECT												m_rcWindowClient;

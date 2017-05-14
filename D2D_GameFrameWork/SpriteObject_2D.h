@@ -35,7 +35,7 @@ public:
 
 	void OnSpriteUpdate();
 
-	void SetSpriteHeight(const float& pivot) { m_frameCountHeight = pivot; }
+	void SetSpriteHeight(const UINT& pivot) { m_frameCountHeight = pivot; }
 
 	void SetSprite(const float& frameFPS, const UINT& frameCount,const UINT& frameCountHeight = 1U);
 	void SetSprite(const std::wstring& name, const float& frameFPS, const UINT& frameCount,const UINT& frameCountHeight = 1U);

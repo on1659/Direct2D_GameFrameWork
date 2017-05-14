@@ -20,7 +20,12 @@ void CRenderManager_2D::Load(Microsoft::WRL::ComPtr<IWICImagingFactory2> pwicFac
 	// -- Always --
 
 
+	//Mirror Texture
 	AddMirrorFolderImage(TEXT("../Asset/Player/"), TEXT("Player_")) ;
+
+
+	//Texture
+	AddFolderImage(TEXT("../Asset/Map/"), TEXT(""));
 
 }
 

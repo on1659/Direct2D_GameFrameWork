@@ -17,12 +17,12 @@ public:
 	
 	}
 
-	virtual void Start(CGameObject* gameObject)
+	virtual void Start(CGameObject_2D* gameObject)
 	{
 		Component::Start(gameObject);
 	}
 
-	virtual void BeforeMove(CGameObject* other) 
+	virtual void BeforeMove(CGameObject_2D* other) 
 	{
 
 	}

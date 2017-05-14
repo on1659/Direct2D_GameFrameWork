@@ -513,6 +513,7 @@ public:
 	void Load(IDWriteFactory *pdwFactory)
 	{
 		m_pdwFactory = pdwFactory;
+		CreatFont(m_pdwFactory, TEXT("a¿¾³¯¸ñ¿åÅÁB"), 25, DWRITE_FONT_WEIGHT_BOLD);
 		CreatFont(m_pdwFactory, TEXT("³ª´®¹Ù¸¥°íµñ"), 25, DWRITE_FONT_WEIGHT_BOLD);
 
 	}

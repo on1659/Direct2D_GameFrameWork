@@ -70,6 +70,12 @@
     <Filter Include="2D_Client\10.Script\Move">
       <UniqueIdentifier>{1b2c7373-a2ce-44fd-ae7c-0dfc0e79cfe3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2D_Client\04.Object\MapObject">
+      <UniqueIdentifier>{046a5116-11ec-43c1-875e-1c329ba0d46a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D_Client\04.Object\Cemera">
+      <UniqueIdentifier>{d8fe9e24-bda4-4e67-9764-e1d9f043da80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -120,9 +126,6 @@
     <ClInclude Include="InputManager.h">
       <Filter>2D_Client\06.InputManager</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>2D_Client\04.Object\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Draw.h">
       <Filter>2D_Client\07.Draw</Filter>
     </ClInclude>
@@ -153,6 +156,18 @@
     <ClInclude Include="InputScript.h">
       <Filter>2D_Client\10.Script\Move</Filter>
     </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>2D_Client\04.Object\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera_2D.h">
+      <Filter>2D_Client\04.Object\Cemera</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject_2D.h">
+      <Filter>2D_Client\04.Object\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniDump.h">
+      <Filter>2D_Client\98.Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Object_D2D.cpp">
@@ -173,9 +188,6 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>2D_Client\06.InputManager</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>2D_Client\04.Object\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Draw.cpp">
       <Filter>2D_Client\07.Draw</Filter>
     </ClCompile>
@@ -190,6 +202,15 @@
     </ClCompile>
     <ClCompile Include="RenderManager_2D.cpp">
       <Filter>2D_Client\08.RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>2D_Client\04.Object\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera_2D.cpp">
+      <Filter>2D_Client\04.Object\Cemera</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject_2D.cpp">
+      <Filter>2D_Client\04.Object\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

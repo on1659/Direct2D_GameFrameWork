@@ -17,12 +17,12 @@ public:
 
 	}
 
-	virtual void Start(CGameObject* gameObject)
+	virtual void Start(CGameObject_2D* gameObject)
 	{
 		Component::Start(gameObject);
 	}
 
-	virtual void BeforeMove(CGameObject* other)
+	virtual void BeforeMove(CGameObject_2D* other)
 	{
 
 	}
@@ -30,13 +30,13 @@ public:
 	virtual void Update(const float&  frame_time)
 	{
 
-		if (INPUT->KeyDown(YT_KEY::YK_W))	
+		if (INPUT->KeyDown(YT_KEY::YK_W) || INPUT->KeyDown(YT_KEY::YK_UP))
 			gameObject->Move(0, -fSpeed);
-		if (INPUT->KeyDown(YT_KEY::YK_A))
+		if (INPUT->KeyDown(YT_KEY::YK_A) || INPUT->KeyDown(YT_KEY::YK_LEFT))
 			gameObject->Move(-fSpeed, 0);
-		if (INPUT->KeyDown(YT_KEY::YK_S))
+		if (INPUT->KeyDown(YT_KEY::YK_S) || INPUT->KeyDown(YT_KEY::YK_DOWN))
 			gameObject->Move(0, fSpeed);
-		if (INPUT->OnlyKeyDown(YT_KEY::YK_D))	
+		if (INPUT->KeyDown(YT_KEY::YK_D) || INPUT->KeyDown(YT_KEY::YK_RIGHT))
 			gameObject->Move(fSpeed, 0);
 
 	}

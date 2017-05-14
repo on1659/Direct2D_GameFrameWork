@@ -138,12 +138,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera_2D.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="D2D_GameFrameWork.h" />
     <ClInclude Include="Draw.h" />
     <ClInclude Include="DropManager.h" />
     <ClInclude Include="GameFrameWork_D2D.h" />
-    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObject_2D.h" />
     <ClInclude Include="GraphicObject_2D.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </ExcludedFromBuild>
@@ -157,6 +158,8 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="LoadD2DBitmap.h" />
     <ClInclude Include="DrawHelper.h" />
+    <ClInclude Include="MapObject.h" />
+    <ClInclude Include="MiniDump.h" />
     <ClInclude Include="RenderManager_2D.h" />
     <ClInclude Include="SampleScript.h" />
     <ClInclude Include="SceneMain.h" />
@@ -193,10 +196,11 @@
     <ClInclude Include="Util.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera_2D.cpp" />
     <ClCompile Include="D2D_GameFrameWork.cpp" />
     <ClCompile Include="Draw.cpp" />
     <ClCompile Include="GameFrameWork_D2D.cpp" />
-    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameObject_2D.cpp" />
     <ClCompile Include="GraphicObject_2D.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </ExcludedFromBuild>
@@ -208,6 +212,7 @@
       </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="RenderManager_2D.cpp" />
     <ClCompile Include="SceneMain.cpp" />
     <ClCompile Include="Object_D2D.cpp" />

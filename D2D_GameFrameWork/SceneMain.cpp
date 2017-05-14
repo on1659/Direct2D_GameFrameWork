@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "SceneMain.h"
-#include "LoadD2DBitmap.h"
 #include "GameFrameWork_D2D.h"
+
 #include "Draw.h"
-
-
 #include "InputScript.h"
+
+#include "MapObject.h"
+
 
 CSceneMain::CSceneMain(const std::string& name) : CSceneState(name)
 {
@@ -16,104 +17,40 @@ CSceneMain::~CSceneMain()
 {
 }
 
-
-void CSceneMain::enter(HINSTANCE hInstance, HWND hWnd, Microsoft::WRL::ComPtr<ID2D1Factory2> pd2dFactory2, ID2D1HwndRenderTarget *pd2dRenderTarget)
+bool CSceneMain::Release()
 {
-	CSceneState::enter(hInstance, hWnd, pd2dFactory2, pd2dRenderTarget);
+	CSceneState::Release();
 
-	m_hInstance = hInstance;
-	m_hWnd = hWnd;
+	if (m_BackGround)delete m_BackGround;
+	m_BackGround = nullptr;
 
-	playerPos.x = 45;
-	playerPos.y = 45;
-
-	player_size = 88;
+	return true;
+}
 
 
+bool CSceneMain::Start(HINSTANCE hInstance, HWND hWnd, Microsoft::WRL::ComPtr<ID2D1Factory2> pd2dFactory2, ID2D1HwndRenderTarget *pd2dRenderTarget)
+{
+	CSceneState::Start(hInstance, hWnd, pd2dFactory2, pd2dRenderTarget);
 
-	sprite.Create(TEXT("윈드밀"), 200, 400, 200, 200, 1, 1);
-	graphicObject.Create(TEXT("윈드밀"), 500, 400, 200, 200);
-
-	CSpriteObject_2D sprite;
-	sprite.SetSprite(TEXT("Player_attack_Left"), 10, 7);
-	gameObject.Set(Vector2(100, 100), Vector2(30, 70));
-	gameObject.PushSprite(sprite);
-	
+	m_BackGround = new CMapObject;
+	m_BackGround->Create(TEXT("map_GentMarket"), Vector2(-50, -50));
+	m_BackGround->SetLTRB(-50, -50);
+	m_Camera.Create(0.0f, 0.0f, 450.0f, 450.0f);
 	auto inputScript = std::make_unique<InputScript>();
-	gameObject.SetComponent(std::move(inputScript));
+	m_Camera.SetComponent(std::move(inputScript));
 
+	return true;
 }
-void CSceneMain::exit()
-{
-}
+
 void CSceneMain::Render(ID2D1HwndRenderTarget *pd2dRenderTarget)
 {
-	//Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> hbr;
-	//pd2dRenderTarget->CreateSolidColorBrush(ColorF{ ColorF::AliceBlue }, &hbr);
-	//pd2dRenderTarget->FillRectangle(RectF(v2.x - 10.f, v2.y - 10.f, v2.x + 10.f, v2.y + 10.f), hbr.Get());
-
-	int w = player_size;
-	int h = player_size;
-	float x, y;
-	
-	for (int iy = 0; iy < 8; ++iy)
-	{
-		for (int ix = 0; ix < 8; ++ix)
-		{
-			x = static_cast<float>(ix);
-			y = static_cast<float>(iy);
-
-			if ((ix + iy) & 1)
-				pd2dRenderTarget->FillRectangle(RectF(x * w, y * h, (x+1) * w, (y+1) * h), MY_COLOR(MyColorEnum::White));
-				//Draw::drawRect(pd2dRenderTarget, x *w, y * h, w, h, whilte_brush.Get());
-			else									  
-				pd2dRenderTarget->FillRectangle(RectF(x * w, y * h, (x + 1) * w, (y + 1) * h), MY_COLOR(MyColorEnum::Black));
-	
-		}
-	}
-
-	D2D1_ELLIPSE ellispe;
-	ellispe.point.x = playerPos.x;
-	ellispe.point.y = playerPos.y;
-	ellispe.radiusX = 10.0f;
-	ellispe.radiusY = 10.0f;
-	pd2dRenderTarget->FillEllipse(ellispe, MY_COLOR(Red));
-
-	sprite.Render(pd2dRenderTarget);
-
-	D2D_RECT_F  pos{ 100.0f,100.0f,200.0f,200.0f };
-	pd2dRenderTarget->DrawBitmap(RENDERMGR_2D->GetImage(TEXT("Player_Attack_Left")), &pos, 1.0f);
-
-	pos.top += 100;
-	pos.bottom += 100;
-
-	pd2dRenderTarget->DrawBitmap(RENDERMGR_2D->GetImage(TEXT("Player_Attack_Right")), &pos , 1.0f) ;
-	graphicObject.Render(pd2dRenderTarget);
-	
-	gameObject.Render(pd2dRenderTarget);
+	m_BackGround->Render(pd2dRenderTarget, m_Camera.GetRect());
+	m_Camera.Render(pd2dRenderTarget);
 
 }
 void CSceneMain::Update(const float& fTime)
 {
-
-	//if (INPUT->OnlyKeyDown(YT_KEY::YK_W))	playerPos.y -= player_size;
-	//if (INPUT->OnlyKeyDown(YT_KEY::YK_A))	playerPos.x -= player_size;
-	//if (INPUT->OnlyKeyDown(YT_KEY::YK_S))	playerPos.y += player_size;
-	//if (INPUT->OnlyKeyDown(YT_KEY::YK_D))	playerPos.x += player_size;
-
-	if (Input->KeyUp(YT_KEY::YK_F1))	player_size += 5;
-	if (Input->KeyUp(YT_KEY::YK_F2))	player_size -= 5;
-
-
-	if (!DROPMGR->empty())
-	{
-		auto info = DROPMGR->pop();
-
-		if (info.vDropType[0] == DropInfo_TYPE::DROP_IMAGE)
-			graphicObject.SetImageName(info.vFileName[0]);
-	}
-
- 	gameObject.Update(fTime);
+	m_Camera.Update(fTime);
 }
 
 void CSceneMain::LateUpdate(const float& fTime)

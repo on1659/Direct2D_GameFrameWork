@@ -10,14 +10,20 @@ public:
 
 	~CSceneState() {}
 
-	virtual void enter(HINSTANCE hInstance, HWND hWnd, Microsoft::WRL::ComPtr<ID2D1Factory2> pd2dFactory2, ID2D1HwndRenderTarget *pd2dRenderTarget = nullptr)
+	virtual bool Start(HINSTANCE hInstance, HWND hWnd, Microsoft::WRL::ComPtr<ID2D1Factory2> pd2dFactory2, ID2D1HwndRenderTarget *pd2dRenderTarget = nullptr)
 	{
 		m_hInstance = hInstance;
 		m_hWnd = hWnd;
 		m_pd2dFactory2 = pd2dFactory2;
+		return true;
 	}
 
-	virtual void exit() = 0;
+	virtual bool Release() override
+	{
+		m_hInstance = nullptr;
+		m_hWnd = nullptr;
+		return true;
+	}
 
 	virtual void Render(ID2D1HwndRenderTarget *pd2dRenderTarget) = 0;
 

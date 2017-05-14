@@ -4,7 +4,7 @@
 #include "Util.h"
 
 #include "SceneMain.h"
-#include "Shellapi.h"
+#include "MiniDump.h"
 
 CGameFrameWork_D2D::CGameFrameWork_D2D(const std::string& name)
 	: CSingleTonBase(name)
@@ -15,11 +15,12 @@ CGameFrameWork_D2D::CGameFrameWork_D2D(const std::string& name)
 	, m_hInstance(nullptr)
 	, m_hWnd(nullptr)
 {
-
+	CMiniDump::Start();
 }
 	
 CGameFrameWork_D2D::~CGameFrameWork_D2D()
 {
+	CMiniDump::End();
 }
 
 void CGameFrameWork_D2D::Initialize(HINSTANCE hInstance, HWND hWnd)
@@ -63,7 +64,7 @@ void CGameFrameWork_D2D::Initialize(HINSTANCE hInstance, HWND hWnd)
 	MyFont::GetInstance()->Load(m_pdwFactory.Get());
 
 	//Scene Load
-	CGameFrameWork_D2D::enter(hInstance, hWnd);
+	CGameFrameWork_D2D::Start(hInstance, hWnd);
 
 }
 
@@ -82,25 +83,26 @@ void CGameFrameWork_D2D::DeostryConsole()
 	FreeConsole();
 }
 
-void CGameFrameWork_D2D::enter(HINSTANCE hInstance, HWND hWnd)
+void CGameFrameWork_D2D::Start(HINSTANCE hInstance, HWND hWnd)
 {
-	#ifdef _DEBUG
-		CreateConsole();
-	#endif
+
+	//#ifdef _DEBUG
+	//	CreateConsole();
+	//#endif
 	
 	DROPMGR->DropMode(true, m_hWnd);
 	//DragAcceptFiles(m_hWnd, true);
 
 	m_pScene = std::make_unique<CSceneMain>();
-	m_pScene->enter(m_hInstance, m_hWnd, m_pd2dFactory, m_hWndRenderTarget.Get());
+	m_pScene->Start(m_hInstance, m_hWnd, m_pd2dFactory, m_hWndRenderTarget.Get());
 
 }
  
 bool CGameFrameWork_D2D::Release()
 {
-	#ifdef _DEBUG
-		DeostryConsole();
-	#endif
+	//#ifdef _DEBUG
+	//	DeostryConsole();
+	//#endif
 	m_pScene->Release();
 	RENDERMGR_2D->Release();
 	MyColor::GetInstance()->Release();
@@ -205,6 +207,12 @@ void CGameFrameWork_D2D::Update(const float& fTime)
 
 void CGameFrameWork_D2D::LateUpdate(const float& fTime)
 {
+	if (Input->OnlyKeyBoardDown(YT_KEY::YK_U))
+	{
+		CSceneMain *p = nullptr;
+		p->Update(10.0f);
+		delete p;
+	}
 }
 
 void CGameFrameWork_D2D::Render()
@@ -223,8 +231,8 @@ void CGameFrameWork_D2D::FrameAdvance()
 {
 	auto frame_time = TIMER->Tick(60.0f);
 
-	// 지속적인 상수버퍼의 갱신을 확인하기 위한 Update 함수
 	Update(frame_time);
+	LateUpdate(frame_time);
 
 	Render();
 

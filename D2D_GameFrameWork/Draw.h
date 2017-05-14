@@ -9,15 +9,16 @@ public:
 	{
 		pd2dRenderTarget->FillRectangle(RectF(left, top, left + width, top + height), bursh);
 	}
-	void static drawText(ID2D1HwndRenderTarget *pd2dRenderTarget, const D2D1_RECT_F& rect, const FONT_FORMAT& font, ID2D1SolidColorBrush* color, TCHAR *format, ...)
+
+	static  inline void drawText(ID2D1HwndRenderTarget *pd2dRenderTarget, const D2D1_RECT_F& rect, const FONT_FORMAT& font, ID2D1SolidColorBrush* color, TCHAR *format, ...)
 	{
 		va_list arg;
 		va_start(arg, format);
 		TCHAR buf[500] = { NULL };
-		vswprintf(buf, format, arg);
+		vswprintf_s(buf, format, arg);
 		va_end(arg);
 
-		pd2dRenderTarget->DrawTextW(format, wcslen(format), MY_FONT(font), rect, color);
+		pd2dRenderTarget->DrawTextW(buf, wcslen(format), MY_FONT(font), rect, color);
 
 	}
 	void static drawText(ID2D1HwndRenderTarget *pd2dRenderTarget, const D2D1_RECT_F& rect, const FONT_FORMAT& font, const MyColorEnum color, TCHAR *format, ...)
@@ -25,7 +26,7 @@ public:
 		va_list arg;
 		va_start(arg, format);
 		TCHAR buf[500] = { NULL };
-		vswprintf(buf, format, arg);
+		vswprintf_s(buf, format, arg);
 		va_end(arg);
 
 		pd2dRenderTarget->DrawTextW(buf, wcslen(buf), MY_FONT(font), rect, MY_COLOR(color));

@@ -1,11 +1,11 @@
 #pragma once
 
-class CGameObject;
+class CGameObject_2D;
 
 class Component : public CObject_D2D
 {
 protected:
-	CGameObject*			gameObject;
+	CGameObject_2D*			gameObject;
 
 public:
 	
@@ -15,13 +15,13 @@ public:
 
 	virtual bool Release() override { gameObject = nullptr;  return true; }
 
-	virtual void Start(CGameObject* gameObject) { Component::gameObject = gameObject; }
+	virtual void Start(CGameObject_2D* gameObject) { Component::gameObject = gameObject; }
 
-	virtual void BeforeMove(CGameObject* other) {}
+	virtual void BeforeMove(CGameObject_2D* other) {}
 
 	virtual void Update(const float& frame_time) {}
 
 	virtual void PlayerUpdate(const float& frame_time) {}
 
-	void SetGameObject(CGameObject* gameObject) { Component::gameObject = gameObject; }
+	void SetGameObject(CGameObject_2D* gameObject) { Component::gameObject = gameObject; }
 };

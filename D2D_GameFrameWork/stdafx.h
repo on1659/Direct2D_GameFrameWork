@@ -83,7 +83,8 @@ using namespace DirectX::PackedVector;
 
 #include "RenderManager_2D.h"
 #include "Component.h"
-#include "GameObject.h"
+#include "GameObject_2D.h"
+#include "Camera_2D.h"
 
 static HWND gHwnd;
 

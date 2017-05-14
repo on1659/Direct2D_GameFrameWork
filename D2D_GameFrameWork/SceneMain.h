@@ -7,9 +7,9 @@ public:
 
 	~CSceneMain();
 
-	virtual void enter(HINSTANCE hInstance, HWND hWnd, Microsoft::WRL::ComPtr<ID2D1Factory2> pd2dFactory2, ID2D1HwndRenderTarget *pd2dRenderTarget = nullptr);
+	bool Release() override;
 
-	virtual void exit();
+	bool Start(HINSTANCE hInstance, HWND hWnd, Microsoft::WRL::ComPtr<ID2D1Factory2> pd2dFactory2, ID2D1HwndRenderTarget *pd2dRenderTarget = nullptr);
 
 	virtual void Render(ID2D1HwndRenderTarget *pd2dRenderTarget);
 
@@ -20,13 +20,7 @@ public:
 	virtual void FixedUpdate(const float& fTime);
 
 private:
-
-	Vector2			playerPos;
-	int				player_size;
-
-	CSpriteObject_2D	sprite;
-	CGraphicObject_2D	graphicObject;
-
-	CGameObject			gameObject;
+	CCamera_2D			m_Camera;
+	CGraphicObject_2D	*m_BackGround;
 };
 
